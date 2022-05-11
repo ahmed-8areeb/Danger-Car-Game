@@ -1,5 +1,4 @@
-#ifndef KEYBOARD_H
-#define KEYBOARD_H
+#pragma once
 
 #include <GLFW/glfw3.h>
 #include <cstring>
@@ -62,5 +61,3 @@ namespace our {
     };
 
 }
-
-#endif //KEYBOARD_H

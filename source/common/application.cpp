@@ -22,7 +22,7 @@
 #define ENABLE_OPENGL_DEBUG_MESSAGES
 #endif
 
-#include "texture/screenshot.h"
+#include "texture/screenshot.hpp"
 
 std::string default_screenshot_filepath() {
     std::stringstream stream;

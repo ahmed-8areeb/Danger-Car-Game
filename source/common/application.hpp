@@ -1,5 +1,4 @@
-#ifndef APPLICATION_H
-#define APPLICATION_H
+#pragma once
 
 #include <glm/vec2.hpp>
 #include <glad/gl.h>
@@ -131,6 +130,3 @@ namespace our {
         }
     };
 }
-
-
-#endif //APPLICATION_H
