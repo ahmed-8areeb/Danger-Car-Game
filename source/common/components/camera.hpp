@@ -38,4 +38,4 @@ namespace our
         glm::mat4 getProjectionMatrix(glm::ivec2 viewportSize) const;
     };
 
-}
+} // namespace our
