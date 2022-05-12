@@ -26,8 +26,8 @@ namespace our {
         Entity* add() {
             Entity* entity = new Entity();
             entity->world = this;
-            entities.insert(entity);
-            return entity;
+           
+            return entity; entities.insert(entity);
         }
 
         // This returns and immutable reference to the set of all entites in the world.
