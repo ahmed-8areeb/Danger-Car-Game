@@ -16,6 +16,7 @@ out vec4 frag_color;
 // cheap version of that effect 
 
 void main(){
+    // req 10
     //TODO: Modify this shader to apply chromatic abberation
     // To apply this effect, we only read the green channel from the correct pixel (as defined by tex_coord)
     // To get the red channel, we move by amount STRENGTH to the left then sample another pixel from which we take the red channel

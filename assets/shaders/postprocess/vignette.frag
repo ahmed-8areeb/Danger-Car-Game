@@ -11,8 +11,9 @@ out vec4 frag_color;
 // Vignette is a postprocessing effect that darkens the corners of the screen
 // to grab the attention of the viewer towards the center of the screen
 
-void main(){
-    //TODO: Modify this shader to apply vignette
+void main(){ 
+    // req 10
+    //TODO : Modify this shader to apply vignette
     // To apply vignette, divide the scene color
     // by 1 + the squared length of the 2D pixel location the NDC space
     // Hint: remember that the NDC space ranges from -1 to 1

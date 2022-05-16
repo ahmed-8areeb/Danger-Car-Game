@@ -14,6 +14,7 @@ namespace our
     glm::mat4 Entity::getLocalToWorldMatrix() const
     {
         // TODO: (Req 7) Write this function
+        // here we transform from the child to it's parent and multiply by transform 
         glm::mat4 transMat = this->localTransform.toMat4();
         Entity *current = this->parent;
         while (current)

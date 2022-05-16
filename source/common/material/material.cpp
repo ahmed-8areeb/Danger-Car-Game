@@ -8,7 +8,9 @@ namespace our {
     // This function should setup the pipeline state and set the shader to be used
     void Material::setup() const {
         //TODO: (Req 6) Write this function
+        // call the pipline state setup to set face culling and depth testing and blending 
         pipelineState.setup();
+        // to program use 
         shader->use();
         }
 

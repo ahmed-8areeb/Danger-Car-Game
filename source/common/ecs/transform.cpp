@@ -11,6 +11,7 @@ namespace our {
     glm::mat4 Transform::toMat4() const {
         //TODO: (Req 2) Write this function
 
+        // here we applay scale rotation translation respectivly
             return glm::translate(glm::mat4(1.0f), position) *
             glm::yawPitchRoll(rotation.y, rotation.x, rotation.z) *
             glm::scale(glm::mat4(1.0f), scale);

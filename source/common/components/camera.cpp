@@ -58,6 +58,8 @@ namespace our
         //  It takes left, right, bottom, top. Bottom is -orthoHeight/2 and Top is orthoHeight/2.
         //  Left and Right are the same but after being multiplied by the aspect ratio
         //  For the perspective camera, you can use glm::perspective
+
+        
         glm::mat4 projection;
         float aspectRatio = viewportSize.x / (float)viewportSize.y;
         if (this->cameraType == CameraType::ORTHOGRAPHIC)

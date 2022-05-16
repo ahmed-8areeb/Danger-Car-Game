@@ -32,6 +32,7 @@ namespace our
         void bind(GLuint textureUnit) const
         {
             // TODO: (Req 5) Complete this function
+ 
             glBindSampler(textureUnit, name);
         }
 
@@ -39,6 +40,7 @@ namespace our
         static void unbind(GLuint textureUnit)
         {
             // TODO: (Req 5) Complete this function
+            // here we bind the sampler with the unit which is unit 0
             glBindSampler(textureUnit, 0);
         }
 
@@ -55,6 +57,12 @@ namespace our
         void set(GLenum parameter, GLfloat value) const
         {
             // TODO: (Req 5) Complete this function
+            /*
+            sampler:Specifies the sampler object whose parameter to modify.
+            pname:Specifies the symbolic name of a sampler parameter. pname can be one of the following: GL_TEXTURE_WRAP_S, GL_TEXTURE_WRAP_T, GL_TEXTURE_WRAP_R, GL_TEXTURE_MIN_FILTER, GL_TEXTURE_MAG_FILTER, GL_TEXTURE_BORDER_COLOR, GL_TEXTURE_MIN_LOD, GL_TEXTURE_MAX_LOD, GL_TEXTURE_LOD_BIAS GL_TEXTURE_COMPARE_MODE, or GL_TEXTURE_COMPARE_FUNC.
+            param:For the scalar commands, specifies the value of pname.
+            params:For the vector commands (glSamplerParameter*v), specifies a pointer to an array where the value or values of pname are stored.
+            */
             glSamplerParameterf(name, parameter, value);
         }
 

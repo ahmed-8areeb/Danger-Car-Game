@@ -15,7 +15,10 @@ out Varyings {
 uniform mat4 transform;
 
 void main(){
+    
     //TODO: (Req 2) Change the next line to apply the transformation matrix
+    
+    // here we applay the transformation matrex which is scale rotation and translation to the x , y , z postions 
     gl_Position =  transform * vec4(position, 1.0);
     // No need to change any of the following lines
     vs_out.position = position;

@@ -70,7 +70,7 @@ namespace our
 
             glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, colorTarget->getOpenGLName(), 0);
             glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTarget->getOpenGLName(), 0);
-            
+
             // TODO: (Req 10) Unbind the framebuffer just to be safe
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
             // Create a vertex array to use for drawing the texture
@@ -162,20 +162,27 @@ namespace our
             return;
 
         // TODO: (Req 8) Modify the following line such that "cameraForward" contains a vector pointing the camera forward direction
+        // contains a vector pointing the camera forward direction
         //  HINT: See how you wrote the CameraComponent::getViewMatrix, it should help you solve this one
         glm::vec3 cameraForward = glm::vec3(0.0, 0.0, 1.0);
         std::sort(transparentCommands.begin(), transparentCommands.end(), [cameraForward](const RenderCommand &first, const RenderCommand &second)
                   {
                       // TODO: (Req 8) Finish this function
                       //  HINT: the following return should return true "first" should be drawn before "second".
+                      //  The code is just an example, you should change it to return true if "first" should be drawn
+                      //  before "second"
 
                       if ((pow(first.center.x - cameraForward.x, 2) + pow(first.center.y - cameraForward.y, 2) + pow(first.center.z - cameraForward.z, 2)) > (pow(second.center.x - cameraForward.x, 2) + pow(second.center.y - cameraForward.y, 2) + pow(second.center.z - cameraForward.z, 2)))
                           return true;
                       return false; });
 
         // TODO: (Req 8) Get the camera ViewProjection matrix and store it in VP
+        // v matrex is for get the camera position and view 
+        // p is matrex is the projection materx transform 
+        // vp materx is for transform from cam space to the view port 
         glm::mat4 VP = camera->getProjectionMatrix(windowSize) * camera->getViewMatrix();
         // TODO: (Req 8) Set the OpenGL viewport using windowSize
+        // take the whole screen
         glViewport(0, 0, windowSize[0], windowSize[1]);
 
         // TODO: (Req 8) Set the clear color to black and the clear depth to 1
@@ -183,6 +190,8 @@ namespace our
         glClearDepth(1.0);
 
         // TODO: (Req 8) Set the color mask to true and the depth mask to true (to ensure the glClear will affect the framebuffer)
+        // (to ensure the glClear will affect the framebuffer)
+
         glColorMask(true, true, true, true);
         glDepthMask(true);
 
@@ -254,6 +263,7 @@ namespace our
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
             // TODO: (Req 10) Setup the postprocess material and draw the fullscreen triangle
+            // from textured material 
             postprocessMaterial->setup();
             glBindVertexArray(postProcessVertexArray);
             glDrawArrays(GL_TRIANGLES, 0, 3);
