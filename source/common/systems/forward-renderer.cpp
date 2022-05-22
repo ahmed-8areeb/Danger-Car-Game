@@ -224,7 +224,6 @@ namespace our
             this->skyMaterial->setup();
 
             // TODO: (Req 9) Get the camera position
-            // camera->getOwner().getLocalToWorldTransform.toMat4() * vec4(0, 0, 0, 1.0f);
 
             glm::vec4 camPosition = camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(0, 0, 0, 1.0f);
 

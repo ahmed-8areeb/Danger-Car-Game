@@ -9,6 +9,7 @@ our::Texture2D *our::texture_utils::empty(GLenum format, glm::ivec2 size)
 {
     our::Texture2D *texture = new our::Texture2D();
     // TODO: (Req 10) Finish this function to create an empty texture with the given size and format
+    // this function empty used with frame buffer
 
     /*target:Specifies the target to which the texture object is bound for glTexStorage2D. Must be one of GL_TEXTURE_2D, GL_TEXTURE_1D_ARRAY, GL_TEXTURE_RECTANGLE, GL_TEXTURE_CUBE_MAP, GL_PROXY_TEXTURE_2D, GL_PROXY_TEXTURE_1D_ARRAY, GL_PROXY_TEXTURE_RECTANGLE, or GL_PROXY_TEXTURE_CUBE_MAP.
     texture:Specifies the texture object name for glTextureStorage2D. The effective target of texture must be one of the valid non-proxy target values above.
@@ -17,7 +18,7 @@ our::Texture2D *our::texture_utils::empty(GLenum format, glm::ivec2 size)
     width:Specifies the width of the texture, in texels.
     height:Specifies the height of the texture, in texels.*/
     texture->bind();
-    glTexStorage2D(GL_TEXTURE_2D, 1, format, size[0], size[1]);
+    glTexStorage2D(GL_TEXTURE_2D, 1, format, size[0], size[1]); 
     return texture;
 }
 
