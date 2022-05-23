@@ -4,6 +4,8 @@
 #include "../components/camera.hpp"
 #include "../components/mesh-renderer.hpp"
 #include "../asset-loader.hpp"
+#include "../components/light.hpp"
+
 
 #include <glad/gl.h>
 #include <vector>
@@ -49,7 +51,8 @@ namespace our
         // This function should be called every frame to draw the given world
         void render(World* world);
 
-
+        std::vector<Entity *> lightedEntities(World *world);
+        void lightSetup(std::vector<Entity *> entities, ShaderProgram *program);
     };
 
 }

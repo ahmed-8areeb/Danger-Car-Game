@@ -1,6 +1,8 @@
 #include "forward-renderer.hpp"
 #include "../mesh/mesh-utils.hpp"
 #include "../texture/texture-utils.hpp"
+#include <vector>
+#include <glm/gtx/euler_angles.hpp>
 
 namespace our
 {
@@ -123,8 +125,37 @@ namespace our
             delete postprocessMaterial;
         }
     }
+    std::vector<Entity *> lightedEntities(World *world)
+    {
+        std::vector<Entity *> lEntities;
+        for (auto entity : world->getEntities())
+        {
+            if (auto lEntity = entity->getComponent<LightComponent>(); lEntity)
+            {
+                lEntities.push_back(entity);
+            }
+        }
 
-    void ForwardRenderer::render(World *world)
+        return lEntities;
+    }
+
+    void lightSetup(std::vector<Entity *> entities, ShaderProgram *program){
+        program->set("light_count", (int)entities.size());
+        for (int i = 0; i < (int)entities.size(); i++)
+        {
+            LightComponent *light = entities[i]->getComponent<LightComponent>();
+            program->set("lights[" + std::to_string(i) + "].type", (int)light->lightType);
+            program->set("lights[" + std::to_string(i) + "].diffuse", light->diffuse);
+            program->set("lights[" + std::to_string(i) + "].specular", light->specular);
+            program->set("lights[" + std::to_string(i) + "].attenuation", light->attenuation);
+            program->set("lights[" + std::to_string(i) + "].cone_angles", glm::vec2(glm::radians(light->cone_angles.x), glm::radians(light->cone_angles.y)));
+            program->set("lights[" + std::to_string(i) + "].position", entities[i]->localTransform.position);
+            glm::vec3 rotation = entities[i]->localTransform.rotation;
+            program->set("lights[" + std::to_string(i) + "].direction", (glm::vec3)(glm::yawPitchRoll(rotation[1], rotation[0], rotation[2])*glm::vec4(0,-1,0,0)));
+        }
+    }
+
+        void ForwardRenderer::render(World *world)
     {
         // First of all, we search for a camera and for all the mesh renderers
         CameraComponent *camera = nullptr;
@@ -177,9 +208,9 @@ namespace our
                       return false; });
 
         // TODO: (Req 8) Get the camera ViewProjection matrix and store it in VP
-        // v matrex is for get the camera position and view 
-        // p is matrex is the projection materx transform 
-        // vp materx is for transform from cam space to the view port 
+        // v matrex is for get the camera position and view
+        // p is matrex is the projection materx transform
+        // vp materx is for transform from cam space to the view port
         glm::mat4 VP = camera->getProjectionMatrix(windowSize) * camera->getViewMatrix();
         // TODO: (Req 8) Set the OpenGL viewport using windowSize
         // take the whole screen
@@ -262,7 +293,7 @@ namespace our
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 
             // TODO: (Req 10) Setup the postprocess material and draw the fullscreen triangle
-            // from textured material 
+            // from textured material
             postprocessMaterial->setup();
             glBindVertexArray(postProcessVertexArray);
             glDrawArrays(GL_TRIANGLES, 0, 3);
