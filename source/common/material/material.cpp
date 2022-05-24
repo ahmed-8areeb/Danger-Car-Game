@@ -128,7 +128,8 @@ namespace our
     // This function read the material data from a json object
     void LightedMaterial::deserialize(const nlohmann::json &data)
     {
-        LightedMaterial::deserialize(data);
+        Material::deserialize(data);
+        // LightedMaterial::deserialize(data);
         if (!data.is_object())
             return;
         if(data.contains("albedo_texture"))

@@ -3,7 +3,7 @@
 uniform vec3 eye;
 uniform mat4 VP;
 uniform mat4 M;
-uniform mat4 M_IT;
+uniform mat4 MIT;
 
 layout(location=0) in vec3 position;
 layout(location=1) in vec4 color;
@@ -23,7 +23,7 @@ void main(){
     gl_Position = VP * vec4(world, 1.0);
     vs_out.color = color;
     vs_out.tex_coord = tex_coord;
-    vs_out.normal = normalize((M_IT * vec4(normal, 0.0)).xyz);
+    vs_out.normal = normalize((MIT * vec4(normal, 0.0)).xyz);
     vs_out.view = eye - world;
     vs_out.world = world;
 }

@@ -31,8 +31,6 @@ struct Material {
     sampler2D ambient_occlusion;
     sampler2D roughness;
     sampler2D emissive;
-    bool ambientOcclusionEnable;
-    bool alphaTextureEnable;
 };
 
 uniform Material material;
@@ -92,8 +90,5 @@ void main(){
         }
 
         frag_color.rgb += (diffuse + specular) * attenuation;
-        if(material.alphaEnable){
-          frag_color.a=texture(material.alpha,fs_in.tex_coord).a;
-        }
     }
 }

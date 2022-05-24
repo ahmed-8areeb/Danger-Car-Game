@@ -8,11 +8,12 @@
 namespace our
 {
 
+
     void ForwardRenderer::initialize(glm::ivec2 windowSize, const nlohmann::json &config)
     {
         // First, we store the window size for later use
         this->windowSize = windowSize;
-
+        deserialize(config);
         // Then we check if there is a sky texture in the configuration
         if (config.contains("sky"))
         {
@@ -101,6 +102,17 @@ namespace our
             // so it is more performant to disable the depth mask
             postprocessMaterial->pipelineState.depthMask = false;
         }
+
+        // if (config.contains("lighted"))
+        // {
+        //     light->deserialize(config);
+
+        //     ShaderProgram *lightShader = new ShaderProgram();
+        //     lightShader->attach("assets/shaders/light.vert", GL_VERTEX_SHADER);
+        //     lightShader->attach("assets/shaders/light.frag", GL_FRAGMENT_SHADER);
+        //     lightShader->link();
+        // }
+
     }
 
     void ForwardRenderer::destroy()
@@ -126,7 +138,7 @@ namespace our
             delete postprocessMaterial;
         }
     }
-    std::vector<Entity *> lightedEntities(World *world)
+    std::vector<Entity *> ForwardRenderer::lightedEntities(World *world)
     {
         std::vector<Entity *> lEntities;
         for (auto entity : world->getEntities())
@@ -140,7 +152,7 @@ namespace our
         return lEntities;
     }
 
-    void lightSetup(std::vector<Entity *> entities, ShaderProgram *program)
+    void ForwardRenderer::lightSetup(std::vector<Entity *> entities, ShaderProgram *program)
     {
         program->set("light_count", (int)entities.size());
         for (int i = 0; i < (int)entities.size(); i++)
@@ -154,6 +166,28 @@ namespace our
             program->set("lights[" + std::to_string(i) + "].position", entities[i]->localTransform.position);
             glm::vec3 rotation = entities[i]->localTransform.rotation;
             program->set("lights[" + std::to_string(i) + "].direction", (glm::vec3)((glm::yawPitchRoll(rotation[1], rotation[0], rotation[2]) * (glm::vec4(0, -1, 0, 0)))));
+        }
+    }
+
+    void ForwardRenderer::excuteCommand(std::vector<RenderCommand> commands,glm::mat4 VP,std::vector<Entity *> lEntities,glm::vec3 eye)
+    {
+        for (RenderCommand command : commands)
+        {
+            ShaderProgram *program = command.material->shader;
+            Mesh *mesh = command.mesh;
+            command.material->setup();
+
+            program->set("eye", eye);
+            program->set("M", command.localToWorld);
+            program->set("MIT", glm::transpose(glm::inverse(command.localToWorld)));
+            program->set("VP", VP);
+            ForwardRenderer::lightSetup(lEntities, program);
+            program->set("sky.top", this->sky_top);
+            program->set("sky.middle",  this->sky_middle);
+            program->set("sky.bottom",  this->sky_bottom);
+
+            // program->set("transform", VP * command.localToWorld);
+            mesh->draw();
         }
     }
 
@@ -240,25 +274,26 @@ namespace our
         glClear(GL_DEPTH_BUFFER_BIT);
 
         std::vector<Entity *> lEntities = lightedEntities(world);
-        auto executeCommands = [&VP, &camera, &lEntities, this](std::vector<RenderCommand> commands)
-        {
-            for (RenderCommand command : commands)
-            {
-                ShaderProgram *program = command.material->shader;
-                Mesh *mesh = command.mesh;
-                command.material->setup();
+        glm::vec3 eye = glm::vec3(camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(glm::vec3(0, 0, 0), 1.0f)); 
+      //  auto executeCommands = [&VP, &camera, &lEntities, this](std::vector<RenderCommand> commands)
+        //{
+            // for (RenderCommand command : commands)
+            // {
+            //     ShaderProgram *program = command.material->shader;
+            //     Mesh *mesh = command.mesh;
+            //     command.material->setup();
 
-                program->set("eye", glm::vec3(camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(glm::vec3(0, 0, 0), 1.0f)));
-                program->set("M", command.localToWorld);
-                program->set("MIT", glm::transpose(glm::inverse(command.localToWorld)));
-                program->set("VP", VP);
-                lightSetup(lEntities, program);
-                program->set("sky.top", this->sky_top);
-                program->set("sky.middle", this->sky_middle);
-                program->set("sky.bottom", this->sky_bottom);
-                mesh->draw();
-            }
-        };
+            //     program->set("eye", glm::vec3(camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(glm::vec3(0, 0, 0), 1.0f)));
+            //     program->set("M", command.localToWorld);
+            //     program->set("MIT", glm::transpose(glm::inverse(command.localToWorld)));
+            //     program->set("VP", VP);
+            //     lightSetup(lEntities, program);
+            //     program->set("sky.top", this->sky_top);
+            //     program->set("sky.middle", this->sky_middle);
+            //     program->set("sky.bottom", this->sky_bottom);
+            //     mesh->draw();
+            // }
+       // };
 
         // TODO: (Req 8) Draw all the opaque commands
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
@@ -270,7 +305,7 @@ namespace our
         //     opaqueCommands[i].material->shader->set("transform", VP * opaqueCommands[i].localToWorld);
         //     opaqueCommands[i].mesh->draw();
         // }
-        executeCommands(opaqueCommands);
+        ForwardRenderer::excuteCommand(opaqueCommands,VP,lEntities,eye);
 
         // If there is a sky material, draw the sky
         if (this->skyMaterial)
@@ -296,7 +331,8 @@ namespace our
             );
             // TODO: (Req 9) set the "transform" uniform
 
-            skyMaterial->shader->set("transform", alwaysBehindTransform * VP * transform);
+            skyMaterial->shader->set("VP", alwaysBehindTransform * VP);
+            skyMaterial->shader->set("M",transform);
             // TODO: (Req 9) draw the sky sphere
             skySphere->draw();
         }
@@ -309,7 +345,7 @@ namespace our
         //     transparentCommands[i].material->shader->set("transform", VP * transparentCommands[i].localToWorld);
         //     transparentCommands[i].mesh->draw();
         // }
-        executeCommands(transparentCommands);
+         ForwardRenderer::excuteCommand(transparentCommands,VP,lEntities,eye);
 
         // If there is a postprocess material, apply postprocessing
         if (postprocessMaterial)

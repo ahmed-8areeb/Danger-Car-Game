@@ -44,6 +44,8 @@ namespace our
         Texture2D *colorTarget, *depthTarget;
         TexturedMaterial* postprocessMaterial;
 
+        LightComponent * light;
+
         // for sky material
         glm::vec3 sky_top;
         glm::vec3 sky_middle;
@@ -60,6 +62,26 @@ namespace our
 
         std::vector<Entity *> lightedEntities(World *world);
         void lightSetup(std::vector<Entity *> entities, ShaderProgram *program);
+        void excuteCommand(std::vector<RenderCommand> commands,glm::mat4 VP,std::vector<Entity *> lEntities,glm::vec3 eye);
+        void deserialize(const nlohmann::json &data) 
+        {
+            if (data.contains("sky_top"))
+            {
+                std::vector<float> v=data["sky_top"];
+                sky_top = glm::vec3(v[0], v[1], v[2]);
+            }
+            if(data.contains("sky_middle"))
+            {
+                std::vector<float> v=data["sky_middle"];
+                sky_middle = glm::vec3(v[0], v[1], v[2]);
+            }
+            if(data.contains("sky_bottom"))
+            {
+                std::vector<float> v=data["sky_bottom"];
+                sky_bottom = glm::vec3(v[0], v[1], v[2]);
+            }
+            
+        }
     };
 
 }

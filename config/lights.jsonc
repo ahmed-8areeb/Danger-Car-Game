@@ -8,12 +8,16 @@
             "height":720
         },
         "fullscreen": false
+
     },
     "scene": {
         "renderer":{
             "sky": "assets/textures/sky.jpg",
             "postprocess": "assets/shaders/postprocess/vignette.frag",
-            "monkey":"assets/textures/monkey.png" // modified
+            "sky_top":[ 0.3, 0.6, 1.0],
+            "sky_middle":[ 0.3, 0.3, 0.3],
+            "sky_bottom" :[0.1, 0.1, 0.0]
+
         },
         "assets":{
             "shaders":{
@@ -43,7 +47,7 @@
                 "ambient": "assets/textures/ambient_occlusion.jpg"
             },
             "meshes":{
-                "cube": "assets/models/cube.obj",
+                // "cube": "assets/models/cube.obj",
                 "monkey": "assets/models/monkey.obj",
                 "plane": "assets/models/plane.obj",
                 "sphere": "assets/models/sphere.obj"
@@ -55,19 +59,19 @@
                 }
             },
             "materials":{
-                "metal":{
-                    "type": "tinted",
-                    "shader": "tinted",
-                    "pipelineState": {
-                        "faceCulling":{
-                            "enabled": false
-                        },
-                        "depthTesting":{
-                            "enabled": true
-                        }
-                    },
-                    "tint": [0.45, 0.4, 0.5, 1]
-                },
+                // "metal":{
+                //     "type": "tinted",
+                //     "shader": "tinted",
+                //     "pipelineState": {
+                //         "faceCulling":{
+                //             "enabled": false
+                //         },
+                //         "depthTesting":{
+                //             "enabled": true
+                //         }
+                //     },
+                //     "tint": [0.45, 0.4, 0.5, 1]
+                // },
                 "glass":{
                     "type": "textured",
                     "shader": "textured",
@@ -155,18 +159,18 @@
                     }
                 ],
                 "children": [
-                    {
-                        "position": [1, -1, -1],
-                        "rotation": [45, 45, 0],
-                        "scale": [0.1, 0.1, 1.0],
-                        "components": [
-                            {
-                                "type": "Mesh Renderer",
-                                "mesh": "cube",
-                                "material": "metal"
-                            }
-                        ]
-                    }
+                    // {
+                    //     "position": [1, -1, -1],
+                    //     "rotation": [45, 45, 0],
+                    //     "scale": [0.1, 0.1, 1.0],
+                    //     "components": [
+                    //         {
+                    //             "type": "Mesh Renderer",
+                    //             "mesh": "cube",
+                    //             "material": "metal"
+                    //         }
+                    //     ]
+                    // }
                 ]
             },
             {

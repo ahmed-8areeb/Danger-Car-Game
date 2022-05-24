@@ -83,7 +83,7 @@ namespace our {
             return new TintedMaterial();
         } else if(type == "textured"){
             return new TexturedMaterial();
-        } else if(type=="lighted"){
+        } else if(type=="lighted"){   // not needed
             return new LightedMaterial();
         }
          else {
