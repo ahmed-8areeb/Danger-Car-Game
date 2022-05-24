@@ -1,4 +1,5 @@
 #include "forward-renderer.hpp"
+#include "../ecs/entity.hpp"
 #include "../mesh/mesh-utils.hpp"
 #include "../texture/texture-utils.hpp"
 #include <vector>
@@ -139,7 +140,8 @@ namespace our
         return lEntities;
     }
 
-    void lightSetup(std::vector<Entity *> entities, ShaderProgram *program){
+    void lightSetup(std::vector<Entity *> entities, ShaderProgram *program)
+    {
         program->set("light_count", (int)entities.size());
         for (int i = 0; i < (int)entities.size(); i++)
         {
@@ -151,11 +153,11 @@ namespace our
             program->set("lights[" + std::to_string(i) + "].cone_angles", glm::vec2(glm::radians(light->cone_angles.x), glm::radians(light->cone_angles.y)));
             program->set("lights[" + std::to_string(i) + "].position", entities[i]->localTransform.position);
             glm::vec3 rotation = entities[i]->localTransform.rotation;
-            program->set("lights[" + std::to_string(i) + "].direction", (glm::vec3)(glm::yawPitchRoll(rotation[1], rotation[0], rotation[2])*glm::vec4(0,-1,0,0)));
+            program->set("lights[" + std::to_string(i) + "].direction", (glm::vec3)((glm::yawPitchRoll(rotation[1], rotation[0], rotation[2]) * (glm::vec4(0, -1, 0, 0)))));
         }
     }
 
-        void ForwardRenderer::render(World *world)
+    void ForwardRenderer::render(World *world)
     {
         // First of all, we search for a camera and for all the mesh renderers
         CameraComponent *camera = nullptr;
@@ -237,16 +239,38 @@ namespace our
         glClear(GL_COLOR_BUFFER_BIT);
         glClear(GL_DEPTH_BUFFER_BIT);
 
+        std::vector<Entity *> lEntities = lightedEntities(world);
+        auto executeCommands = [&VP, &camera, &lEntities, this](std::vector<RenderCommand> commands)
+        {
+            for (RenderCommand command : commands)
+            {
+                ShaderProgram *program = command.material->shader;
+                Mesh *mesh = command.mesh;
+                command.material->setup();
+
+                program->set("eye", glm::vec3(camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(glm::vec3(0, 0, 0), 1.0f)));
+                program->set("M", command.localToWorld);
+                program->set("MIT", glm::transpose(glm::inverse(command.localToWorld)));
+                program->set("VP", VP);
+                lightSetup(lEntities, program);
+                program->set("sky.top", this->sky_top);
+                program->set("sky.middle", this->sky_middle);
+                program->set("sky.bottom", this->sky_bottom);
+                mesh->draw();
+            }
+        };
+
         // TODO: (Req 8) Draw all the opaque commands
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
 
-        for (int i = 0; i < opaqueCommands.size(); i++)
-        {
-            /* we should draw here */
-            opaqueCommands[i].material->setup();
-            opaqueCommands[i].material->shader->set("transform", VP * opaqueCommands[i].localToWorld);
-            opaqueCommands[i].mesh->draw();
-        }
+        // for (int i = 0; i < opaqueCommands.size(); i++)
+        // {
+        //     /* we should draw here */
+        //     opaqueCommands[i].material->setup();
+        //     opaqueCommands[i].material->shader->set("transform", VP * opaqueCommands[i].localToWorld);
+        //     opaqueCommands[i].mesh->draw();
+        // }
+        executeCommands(opaqueCommands);
 
         // If there is a sky material, draw the sky
         if (this->skyMaterial)
@@ -279,12 +303,13 @@ namespace our
         // TODO: (Req 8) Draw all the transparent commands
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
 
-        for (int i = 0; i < transparentCommands.size(); i++)
-        {
-            transparentCommands[i].material->setup();
-            transparentCommands[i].material->shader->set("transform", VP * transparentCommands[i].localToWorld);
-            transparentCommands[i].mesh->draw();
-        }
+        // for (int i = 0; i < transparentCommands.size(); i++)
+        // {
+        //     transparentCommands[i].material->setup();
+        //     transparentCommands[i].material->shader->set("transform", VP * transparentCommands[i].localToWorld);
+        //     transparentCommands[i].mesh->draw();
+        // }
+        executeCommands(transparentCommands);
 
         // If there is a postprocess material, apply postprocessing
         if (postprocessMaterial)

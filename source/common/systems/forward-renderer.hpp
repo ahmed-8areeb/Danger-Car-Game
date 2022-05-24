@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../ecs/world.hpp"
+#include "../ecs/entity.hpp"
 #include "../components/camera.hpp"
 #include "../components/mesh-renderer.hpp"
 #include "../asset-loader.hpp"
@@ -42,6 +43,12 @@ namespace our
         GLuint postprocessFrameBuffer, postProcessVertexArray;
         Texture2D *colorTarget, *depthTarget;
         TexturedMaterial* postprocessMaterial;
+
+        // for sky material
+        glm::vec3 sky_top;
+        glm::vec3 sky_middle;
+        glm::vec3 sky_bottom;
+
     public:
         // Initialize the renderer including the sky and the Postprocessing objects.
         // windowSize is the width & height of the window (in pixels).
