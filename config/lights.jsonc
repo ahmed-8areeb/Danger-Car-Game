@@ -22,6 +22,7 @@
           "vs": "assets/shaders/tinted.vert",
           "fs": "assets/shaders/tinted.frag"
         },
+<<<<<<< HEAD
         "textured": {
           "vs": "assets/shaders/textured.vert",
           "fs": "assets/shaders/textured.frag"
@@ -75,6 +76,57 @@
           "pipelineState": {
             "faceCulling": {
               "enabled": false
+=======
+        "assets":{
+            "shaders":{
+                "tinted":{
+                    "vs":"assets/shaders/tinted.vert",
+                    "fs":"assets/shaders/tinted.frag"
+                },
+                "textured":{
+                    "vs":"assets/shaders/textured.vert",
+                    "fs":"assets/shaders/textured.frag"
+                },
+                "lighted":{
+                  "vs":"assets/shaders/light.vert",
+                  "fs":"assets/shaders/light.frag"
+                }
+            },
+            "textures":{
+                "moon": "assets/textures/moon.jpg",
+                "grass": "assets/textures/road1.jpg",
+                "wood": "assets/textures/wood.jpg",
+                "tower" : "assets/textures/red.jpg",
+                // "glass": "assets/textures/glass-panels.png",
+                // "monkey": "assets/textures/monkey.png",
+                "albedo":"assets/textures/albedo.jpg",
+                "emissive": "assets/textures/emissive.jpg",
+                "roughness": "assets/textures/roughness.jpg",
+                "specular": "assets/textures/specular.jpg",
+                "ambient": "assets/textures/ambient_occlusion.jpg",
+                "heart" : "assets/textures/red.jpg",
+                "car" : "assets/textures/car.jpg",
+                "tyre" : "assets/textures/tyre.jpg"
+                
+            },
+            "meshes":{
+                "cube": "assets/models/cube.obj",
+                // "monkey": "assets/models/monkey.obj",
+                "plane": "assets/models/plane.obj",
+                "sphere": "assets/models/sphere.obj",
+                "cylinder":"assets/models/cylinder.obj",
+                "car" : "assets/models/car.obj",
+                "tyre" : "assets/models/tyre.obj",
+                "heart" : "assets/models/heart.obj"
+               // "street": "assets/models/street.obj"
+            
+            },
+            "samplers":{
+                "default":{},
+                "pixelated":{
+                    "MAG_FILTER": "GL_NEAREST"
+                }
+>>>>>>> 5e26d23636a177962d2ad471d8cbe588815c0b9e
             },
             "depthTesting": {
               "enabled": true
@@ -156,6 +208,7 @@
             "faceCulling": {
               "enabled": false
             },
+<<<<<<< HEAD
             "depthTesting": {
               "enabled": true
             }
@@ -170,6 +223,23 @@
           "pipelineState": {
             "faceCulling": {
               "enabled": false
+=======
+            {
+                "position": [5, 0, 0],
+                "rotation": [-90, 0, 0],
+                "scale": [0.1, 0.1, 0.1],
+                "components": [
+                    {
+                        "type": "Mesh Renderer",
+                        "mesh": "heart",
+                        "material": "heart"
+                    }
+                    // {
+                    //     "type": "Movement",
+                    //     "angularVelocity": [0, 90, 0]
+                    // }
+                ]
+>>>>>>> 5e26d23636a177962d2ad471d8cbe588815c0b9e
             },
             "depthTesting": {
               "enabled": true
