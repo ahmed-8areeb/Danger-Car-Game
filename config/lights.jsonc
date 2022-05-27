@@ -38,7 +38,7 @@
                 "moon": "assets/textures/moon.jpg",
                 "grass": "assets/textures/road1.jpg",
                 "wood": "assets/textures/wood.jpg",
-                "tower" : "assets/textures/buildings/K_BuildingsA_04.jpg",
+                "tower" : "assets/textures/red.jpg",
                 // "glass": "assets/textures/glass-panels.png",
                 // "monkey": "assets/textures/monkey.png",
                 "albedo":"assets/textures/albedo.jpg",
@@ -372,8 +372,8 @@
                 ]
             },
             {
-                "position": [0, 0, 0],
-                "rotation": [0, 0, 90],
+                "position": [5, 0, 0],
+                "rotation": [-90, 0, 0],
                 "scale": [0.1, 0.1, 0.1],
                 "components": [
                     {
