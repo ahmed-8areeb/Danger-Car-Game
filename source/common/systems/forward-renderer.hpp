@@ -3,9 +3,13 @@
 #include "../ecs/world.hpp"
 #include "../ecs/entity.hpp"
 #include "../components/camera.hpp"
+#include "../components/car.hpp"
+#include "../components/collision.hpp"
+
 #include "../components/mesh-renderer.hpp"
 #include "../asset-loader.hpp"
 #include "../components/light.hpp"
+
 
 
 #include <glad/gl.h>

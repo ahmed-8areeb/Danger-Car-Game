@@ -151,6 +151,19 @@ namespace our
 
         return lEntities;
     }
+     std::vector<Entity *>cars(World *world)
+    {
+        std::vector<Entity *> lEntities;
+        for (auto entity : world->getEntities())
+        {
+            if (auto lEntity = entity->getComponent<CarComponent>(); lEntity)
+            {
+                lEntities.push_back(entity);
+            }
+        }
+
+        return lEntities;
+    }
 
     void ForwardRenderer::lightSetup(std::vector<Entity *> entities, ShaderProgram *program)
     {
@@ -181,7 +194,7 @@ namespace our
             program->set("M", command.localToWorld);
             program->set("MIT", glm::transpose(glm::inverse(command.localToWorld)));
             program->set("VP", VP);
-            ForwardRenderer::lightSetup(lEntities, program);
+            //ForwardRenderer::lightSetup(lEntities, program);
             program->set("sky.top", this->sky_top);
             program->set("sky.middle",  this->sky_middle);
             program->set("sky.bottom",  this->sky_bottom);
@@ -221,6 +234,16 @@ namespace our
                     // Otherwise, we add it to the opaque command list
                     opaqueCommands.push_back(command);
                 }
+            }else if(auto meshRenderer = entity->getComponent<CarComponent>(); meshRenderer){
+                RenderCommand command;
+                command.localToWorld = meshRenderer->getOwner()->getLocalToWorldMatrix();
+                command.center = glm::vec3(command.localToWorld * glm::vec4(0, 0, 0, 1));
+                command.mesh = meshRenderer->mesh;
+                command.material = meshRenderer->material;
+                // if it is transparent, we add it to the transparent commands list
+              
+                    // Otherwise, we add it to the opaque command list
+                    opaqueCommands.push_back(command);
             }
         }
 
@@ -305,7 +328,9 @@ namespace our
         //     opaqueCommands[i].material->shader->set("transform", VP * opaqueCommands[i].localToWorld);
         //     opaqueCommands[i].mesh->draw();
         // }
+        std::vector<Entity *> cEntities = cars(world);
         ForwardRenderer::excuteCommand(opaqueCommands,VP,lEntities,eye);
+        ForwardRenderer::excuteCommand(opaqueCommands,VP,cEntities,eye);
 
         // If there is a sky material, draw the sky
         if (this->skyMaterial)

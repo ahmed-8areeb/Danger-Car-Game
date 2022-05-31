@@ -2,9 +2,12 @@
 
 #include "../ecs/entity.hpp"
 #include "camera.hpp"
+#include "player.hpp"
 #include "mesh-renderer.hpp"
 #include "free-camera-controller.hpp"
+#include "car.hpp"
 #include "movement.hpp"
+#include "collision.hpp"
 #include "light.hpp"
 
 namespace our {
@@ -24,6 +27,12 @@ namespace our {
             component = entity->addComponent<MovementComponent>();
         }else if  (type ==  LightComponent::getID()){
              component = entity->addComponent<LightComponent>();
+        }  else if (type == CarComponent::getID()) {
+             component = entity->addComponent<CarComponent>();
+        } else if (type == CollisionComponent::getID()){
+            component = entity->addComponent<CollisionComponent>();
+        }else if (type == PlayerComponent::getID()){
+            component = entity->addComponent<PlayerComponent>();
         }
         if(component) component->deserialize(data);
     }

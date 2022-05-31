@@ -22,7 +22,6 @@
           "vs": "assets/shaders/tinted.vert",
           "fs": "assets/shaders/tinted.frag"
         },
-<<<<<<< HEAD
         "textured": {
           "vs": "assets/shaders/textured.vert",
           "fs": "assets/shaders/textured.frag"
@@ -34,7 +33,8 @@
       },
       "textures": {
         "moon": "assets/textures/moon.jpg",
-        "grass": "assets/textures/road1.jpg",
+        "road": "assets/textures/road1.jpg",
+        "grass": "assets/textures/grass_ground_d.jpg",
         "wood": "assets/textures/wood.jpg",
         "tower": "assets/textures/b1.jpg",
         // "glass": "assets/textures/glass-panels.png",
@@ -76,57 +76,6 @@
           "pipelineState": {
             "faceCulling": {
               "enabled": false
-=======
-        "assets":{
-            "shaders":{
-                "tinted":{
-                    "vs":"assets/shaders/tinted.vert",
-                    "fs":"assets/shaders/tinted.frag"
-                },
-                "textured":{
-                    "vs":"assets/shaders/textured.vert",
-                    "fs":"assets/shaders/textured.frag"
-                },
-                "lighted":{
-                  "vs":"assets/shaders/light.vert",
-                  "fs":"assets/shaders/light.frag"
-                }
-            },
-            "textures":{
-                "moon": "assets/textures/moon.jpg",
-                "grass": "assets/textures/road1.jpg",
-                "wood": "assets/textures/wood.jpg",
-                "tower" : "assets/textures/red.jpg",
-                // "glass": "assets/textures/glass-panels.png",
-                // "monkey": "assets/textures/monkey.png",
-                "albedo":"assets/textures/albedo.jpg",
-                "emissive": "assets/textures/emissive.jpg",
-                "roughness": "assets/textures/roughness.jpg",
-                "specular": "assets/textures/specular.jpg",
-                "ambient": "assets/textures/ambient_occlusion.jpg",
-                "heart" : "assets/textures/red.jpg",
-                "car" : "assets/textures/car.jpg",
-                "tyre" : "assets/textures/tyre.jpg"
-                
-            },
-            "meshes":{
-                "cube": "assets/models/cube.obj",
-                // "monkey": "assets/models/monkey.obj",
-                "plane": "assets/models/plane.obj",
-                "sphere": "assets/models/sphere.obj",
-                "cylinder":"assets/models/cylinder.obj",
-                "car" : "assets/models/car.obj",
-                "tyre" : "assets/models/tyre.obj",
-                "heart" : "assets/models/heart.obj"
-               // "street": "assets/models/street.obj"
-            
-            },
-            "samplers":{
-                "default":{},
-                "pixelated":{
-                    "MAG_FILTER": "GL_NEAREST"
-                }
->>>>>>> 5e26d23636a177962d2ad471d8cbe588815c0b9e
             },
             "depthTesting": {
               "enabled": true
@@ -164,28 +113,6 @@
           "texture": "end",
           "sampler": "default"
         },
-        // "glass":{
-        //     "type": "textured",
-        //     "shader": "textured",
-        //     "pipelineState": {
-        //         "faceCulling":{
-        //             "enabled": false
-        //         },
-        //         "depthTesting":{
-        //             "enabled": true
-        //         },
-        //         "blending":{
-        //             "enabled": true,
-        //             "sourceFactor": "GL_SRC_ALPHA",
-        //             "destinationFactor": "GL_ONE_MINUS_SRC_ALPHA"
-        //         },
-        //         "depthMask": false
-        //     },
-        //     "transparent": true,
-        //     "tint": [1, 1, 1, 1],
-        //     "texture": "glass",
-        //     "sampler": "pixelated"
-        // },
         "grass": {
           "type": "textured",
           "shader": "textured",
@@ -201,6 +128,21 @@
           "texture": "grass",
           "sampler": "default"
         },
+        "road": {
+          "type": "textured",
+          "shader": "textured",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "tint": [1, 1, 1, 1],
+          "texture": "road",
+          "sampler": "default"
+        },
         "tower": {
           "type": "textured",
           "shader": "textured",
@@ -208,7 +150,7 @@
             "faceCulling": {
               "enabled": false
             },
-<<<<<<< HEAD
+
             "depthTesting": {
               "enabled": true
             }
@@ -223,23 +165,6 @@
           "pipelineState": {
             "faceCulling": {
               "enabled": false
-=======
-            {
-                "position": [5, 0, 0],
-                "rotation": [-90, 0, 0],
-                "scale": [0.1, 0.1, 0.1],
-                "components": [
-                    {
-                        "type": "Mesh Renderer",
-                        "mesh": "heart",
-                        "material": "heart"
-                    }
-                    // {
-                    //     "type": "Movement",
-                    //     "angularVelocity": [0, 90, 0]
-                    // }
-                ]
->>>>>>> 5e26d23636a177962d2ad471d8cbe588815c0b9e
             },
             "depthTesting": {
               "enabled": true
@@ -333,32 +258,32 @@
       }
     },
     "world": [
-    //   {
-    //     "position": [0, 7, 0],
-    //     "rotation": [0, 180, 0],
-    //     "components": [
-    //       {
-    //         "type": "Camera"
-    //       },
-    //       {
-    //         "type": "Free Camera Controller"
-    //       }
-    //     ],
-    //     "children": [
-    //       {
-    //         "position": [0, 3, 10],
-    //         "rotation": [45, 45, 0],
-    //         "scale": [0.1, 0.1, 1.0],
-    //         "components": [
-    //           {
-    //             "type": "Mesh Renderer",
-    //             "mesh": "cube",
-    //             "material": "danger"
-    //           }
-    //         ]
-    //       }
-    //     ]
-    //   },
+      //   {
+      //     "position": [0, 7, 0],
+      //     "rotation": [0, 180, 0],
+      //     "components": [
+      //       {
+      //         "type": "Camera"
+      //       },
+      //       {
+      //         "type": "Free Camera Controller"
+      //       }
+      //     ],
+      //     "children": [
+      //       {
+      //         "position": [0, 3, 10],
+      //         "rotation": [45, 45, 0],
+      //         "scale": [0.1, 0.1, 1.0],
+      //         "components": [
+      //           {
+      //             "type": "Mesh Renderer",
+      //             "mesh": "cube",
+      //             "material": "danger"
+      //           }
+      //         ]
+      //       }
+      //     ]
+      //   },
       // road
       {
         "position": [0, 0, 0],
@@ -368,7 +293,7 @@
           {
             "type": "Mesh Renderer",
             "mesh": "plane",
-            "material": "grass"
+            "material": "road"
           }
         ]
       },
@@ -380,7 +305,7 @@
           {
             "type": "Mesh Renderer",
             "mesh": "plane",
-            "material": "grass"
+            "material": "road"
           }
         ]
       },
@@ -392,7 +317,7 @@
           {
             "type": "Mesh Renderer",
             "mesh": "plane",
-            "material": "grass"
+            "material": "road"
           }
         ]
       },
@@ -405,7 +330,7 @@
           {
             "type": "Mesh Renderer",
             "mesh": "plane",
-            "material": "grass"
+            "material": "road"
           }
         ]
       },
@@ -418,11 +343,35 @@
           {
             "type": "Mesh Renderer",
             "mesh": "plane",
+            "material": "road"
+          }
+        ]
+      },
+      //grass
+      {
+        "position": [20, 0, 0],
+        "rotation": [-90, 0, 0],
+        "scale": [10, 150, 1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "plane",
             "material": "grass"
           }
         ]
       },
-
+      {
+        "position": [-20, 0, 0],
+        "rotation": [-90, 0, 0],
+        "scale": [10, 150, 1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "plane",
+            "material": "grass"
+          }
+        ]
+      },
       // Moon
       {
         "position": [0, 20, 10],
@@ -443,18 +392,20 @@
 
       ///CAR
       {
-        "position": [-5, 1.5, 100],
+    
+        "position": [-5, 1.5, -20],
         "rotation": [0, 180, 0],
         "scale": [2.5, 2.5, 2.5],
         "components": [
           {
-            "type": "Mesh Renderer",
+            "type": "Car",
             "mesh": "car",
             "material": "car"
           },
           {
-            "type": "Movement"
-            //"angularVelocity": [0, 90, 0]
+            "type": "Movement",
+            "linearVelocity": [0, 0, 10],
+           "angularVelocity": [0, 0, 0]
           }
         ],
         "children": [
@@ -472,20 +423,23 @@
             ],
             "children": [
               {
-                "position": [0, 3, 10],
-                "rotation": [45, 45, 0],
-                "scale": [0.1, 0.1, 1.0],
+                "position": [0, 1, -1],
+                "rotation": [0, 0, 0],
+                "scale": [1, 0.1, 0],
                 "components": [
                   {
                     "type": "Mesh Renderer",
                     "mesh": "cube",
-                    "material": "danger"
+                    "material": "heart"
+                  },{
+                    "type" : "Player",
+                    "health" : 100.0
                   }
                 ]
               }
             ]
           },
-            //tyres
+          //tyres
           {
             "position": [0, 0, 0],
             "rotation": [0, 0, 0],
@@ -557,7 +511,7 @@
 
       //DANGER R1
       {
-        "position": [-5, 0, 20],
+        "position": [-5, 0, 40],
         "rotation": [-90, 0, 0],
         "scale": [0.5, 0.5, 0.5],
         "components": [
@@ -569,7 +523,13 @@
           {
             "type": "Movement",
             "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type":"Collision",
+            "obstucaseType" :"danger",
+            "effect" : 25
           }
+        
         ]
       },
       {
@@ -585,6 +545,11 @@
           {
             "type": "Movement",
             "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type":"Collision",
+            "obstucaseType" :"danger",
+            "effect" : 25
           }
         ]
       },
@@ -596,11 +561,18 @@
           {
             "type": "Mesh Renderer",
             "mesh": "cylinder",
-            "material": "danger"
+            "material": "danger",
+            "obstucaseType" :"danger",
+            "effect" : 25
           },
           {
             "type": "Movement",
             "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type":"Collision",
+            "obstucaseType" :"danger",
+            "effect" : 25
           }
         ]
       },
@@ -618,6 +590,11 @@
           {
             "type": "Movement",
             "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type":"Collision",
+            "obstucaseType" :"danger",
+            "effect" : 25
           }
         ]
       },
@@ -634,6 +611,11 @@
           {
             "type": "Movement",
             "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type":"Collision",
+            "obstucaseType" :"danger",
+            "effect" : 25
           }
         ]
       },
@@ -783,6 +765,11 @@
           {
             "type": "Movement",
             "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type":"Collision",
+            "obstucaseType" :"heart",
+            "effect" : 25
           }
         ]
       },
@@ -799,6 +786,11 @@
           {
             "type": "Movement",
             "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type":"Collision",
+            "obstucaseType" :"heart",
+            "effect" : 25
           }
         ]
       },
@@ -816,6 +808,11 @@
           {
             "type": "Movement",
             "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type":"Collision",
+            "obstucaseType" :"heart",
+            "effect" : 25
           }
         ]
       },
@@ -916,20 +913,9 @@
       },
 
       /// buildings
-      // {
-      //     "position": [-15, 7, 0],
-      //     "rotation": [0, 90, 0],
-      //     "scale": [5, 10, 5],
-      //     "components": [
-      //         {
-      //             "type": "Mesh Renderer",
-      //             "mesh": "cube",
-      //             "material": "tower"
-      //         }
-      //     ]
-      // },
+    
       {
-        "position": [-15, 7, -55],
+        "position": [-20, 7, -55],
         "rotation": [0, 90, 0],
         "scale": [10, 10, 5],
         "components": [
@@ -941,7 +927,7 @@
         ]
       },
       {
-        "position": [15, 7, -30],
+        "position": [20, 7, -30],
         "rotation": [0, 90, 0],
         "scale": [10, 10, 5],
         "components": [
@@ -953,7 +939,7 @@
         ]
       },
       {
-        "position": [-15, 7, -30],
+        "position": [-20, 7, -30],
         "rotation": [0, 90, 0],
         "scale": [10, 10, 5],
         "components": [
@@ -965,7 +951,7 @@
         ]
       },
       {
-        "position": [-15, 7, 15],
+        "position": [-20, 7, 15],
         "rotation": [0, 90, 0],
         "scale": [5, 10, 5],
         "components": [
@@ -977,7 +963,7 @@
         ]
       },
       {
-        "position": [-15, 7, 30],
+        "position": [-20, 7, 30],
         "rotation": [0, 90, 0],
         "scale": [5, 10, 5],
         "components": [
@@ -989,7 +975,7 @@
         ]
       },
       {
-        "position": [-15, 7, 45],
+        "position": [-20, 7, 45],
         "rotation": [0, 90, 0],
         "scale": [5, 10, 5],
         "components": [
@@ -1001,7 +987,7 @@
         ]
       },
       {
-        "position": [15, 7, 30],
+        "position": [20, 7, 30],
         "rotation": [0, 90, 0],
         "scale": [5, 10, 5],
         "components": [
@@ -1013,7 +999,7 @@
         ]
       },
       {
-        "position": [-15, 7, 60],
+        "position": [-20, 7, 60],
         "rotation": [0, 90, 0],
         "scale": [5, 10, 5],
         "components": [
@@ -1025,7 +1011,7 @@
         ]
       },
       {
-        "position": [15, 7, 60],
+        "position": [20, 7, 60],
         "rotation": [0, 90, 0],
         "scale": [5, 10, 5],
         "components": [
@@ -1037,7 +1023,7 @@
         ]
       },
       {
-        "position": [15, 7, 45],
+        "position": [20, 7, 45],
         "rotation": [0, 90, 0],
         "scale": [5, 10, 5],
         "components": [
@@ -1050,7 +1036,7 @@
       },
 
       {
-        "position": [15, 7, 15],
+        "position": [20, 7, 15],
         "rotation": [0, 90, 0],
         "scale": [5, 10, 5],
         "components": [
@@ -1074,7 +1060,7 @@
       //     ]
       // }
       {
-        "position": [15, 7, 80],
+        "position": [20, 7, 80],
         "rotation": [0, 90, 0],
         "scale": [5, 10, 5],
         "components": [
@@ -1086,7 +1072,7 @@
         ]
       },
       {
-        "position": [-15, 7, 80],
+        "position": [-20, 7, 80],
         "rotation": [0, 90, 0],
         "scale": [5, 10, 5],
         "components": [
@@ -1098,7 +1084,7 @@
         ]
       },
       {
-        "position": [15, 7, 95],
+        "position": [20, 7, 95],
         "rotation": [0, 90, 0],
         "scale": [5, 10, 5],
         "components": [
@@ -1110,7 +1096,7 @@
         ]
       },
       {
-        "position": [-15, 7, 95],
+        "position": [-20, 7, 95],
         "rotation": [0, 90, 0],
         "scale": [5, 10, 5],
         "components": [
@@ -1122,7 +1108,7 @@
         ]
       },
       {
-        "position": [15, 7, 110],
+        "position": [20, 7, 110],
         "rotation": [0, 90, 0],
         "scale": [5, 10, 5],
         "components": [
@@ -1134,7 +1120,7 @@
         ]
       },
       {
-        "position": [-15, 7, 110],
+        "position": [-20, 7, 110],
         "rotation": [0, 90, 0],
         "scale": [5, 10, 5],
         "components": [
@@ -1146,7 +1132,7 @@
         ]
       },
       {
-        "position": [15, 7, 130],
+        "position": [20, 7, 130],
         "rotation": [0, 90, 0],
         "scale": [10, 10, 5],
         "components": [
@@ -1158,7 +1144,7 @@
         ]
       },
       {
-        "position": [-15, 7, 130],
+        "position": [-20, 7, 130],
         "rotation": [0, 90, 0],
         "scale": [10, 10, 5],
         "components": [
@@ -1170,7 +1156,7 @@
         ]
       },
       {
-        "position": [-15, 7, 155],
+        "position": [-20, 7, 155],
         "rotation": [0, 90, 0],
         "scale": [10, 10, 5],
         "components": [
@@ -1181,6 +1167,7 @@
           }
         ]
       },
+      // R2
       {
         "position": [0, 7, 175],
         "rotation": [0, 0, 0],
