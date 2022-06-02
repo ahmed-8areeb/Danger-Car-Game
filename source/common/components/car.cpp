@@ -14,8 +14,7 @@ namespace our
     
        // cvelocity = glm::vec3(data["cvelocity"]);
        /// cvelocity = data.value("cvelocity", cvelocity);
-        mesh = AssetLoader<Mesh>::get(data["mesh"].get<std::string>());
-        material = AssetLoader<Material>::get(data["material"].get<std::string>());
+       
     }
 
     // Creates and returns the camera view matrix

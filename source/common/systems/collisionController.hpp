@@ -133,7 +133,8 @@ namespace our
                             else {
                                 healthScale.x += float(bouns)/100.0;;
                             }
-                            carPosition.z += 10;
+                            objPosition.z -= 20;
+                            objPosition.y -= 20;
                         }
                         break;
                     }

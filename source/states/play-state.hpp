@@ -19,8 +19,10 @@ class Playstate: public our::State {
     our::MovementSystem movementSystem;
     our::CarControllerSystem carController;
     our::CollisionControllerSystem collisionController;
-
+    bool alreadyInitialized = false;
     void onInitialize() override {
+        //if(alreadyInitialized) return ;
+        //alreadyInitialized = true;
         // First of all, we get the scene configuration from the app config
         auto& config = getApp()->getConfig()["scene"];
         // If we have assets in the scene config, we deserialize them
@@ -49,17 +51,23 @@ class Playstate: public our::State {
         bool Collision = false;
         collisionController.checkCollision(&world,Collision);
         if(Collision)
-            this->getApp()->changeState("gameOver");
+            getApp()->changeState("gameOver");
         // And finally we use the renderer system to draw the scene
         renderer.render(&world);
+
+         
+        if (getApp()->getKeyboard().isPressed(GLFW_KEY_ESCAPE))
+        {
+            getApp()->changeState("menu");
+        }
     }
 
     void onDestroy() override {
         // Don't forget to destroy the renderer
-        renderer.destroy();
-        // On exit, we call exit for the camera controller system to make sure that the mouse is unlocked
-        cameraController.exit();
-        // and we delete all the loaded assets to free memory on the RAM and the VRAM
-        our::clearAllAssets();
+        // renderer.destroy();
+        // // // On exit, we call exit for the camera controller system to make sure that the mouse is unlocked
+        // cameraController.exit();
+        // // // and we delete all the loaded assets to free memory on the RAM and the VRAM
+        // our::clearAllAssets();
     }
 };

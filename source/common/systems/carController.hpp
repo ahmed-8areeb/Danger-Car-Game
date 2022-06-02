@@ -20,8 +20,10 @@ namespace our
     class CarControllerSystem {
         Application* app; // The application in which the state runs
         //bool mouse_locked = false; // Is the mouse locked
-
     public:
+        bool jumped = false;
+        double seconds=1;
+        double jumpTime = 0.5;
         // When a state enters, it should call this function and give it the pointer to the application
         void enter(Application* app){
             this->app = app;
@@ -29,6 +31,7 @@ namespace our
 
         // This should be called every frame to update all entities containing a FreeCameraControllerComponent 
         void update(World* world, float deltaTime) {
+           
             // First of all, we search for an entity containing both a CameraComponent and a FreeCameraControllerComponent
             // As soon as we find one, we break
             CarComponent* car = nullptr;
@@ -79,6 +82,18 @@ namespace our
             if(app->getKeyboard().isPressed(GLFW_KEY_D) && position.x>-10.0f) position += right * (deltaTime *2);
             if(app->getKeyboard().isPressed(GLFW_KEY_A)  && position.x<10.0f) position -= right * (deltaTime * 2);
             if(app->getKeyboard().isPressed(GLFW_KEY_X)) rotation.y += glm::radians(1.0f);
+
+            if(jumped){
+                seconds-=deltaTime;
+                if(seconds<=0) jumped=false;
+                if(jumpTime <= seconds)
+                    position.y += 0.1;
+                else position.y -= 0.1;
+            }else if(app->getKeyboard().isPressed(GLFW_KEY_W)){
+                position.y = 1.5;
+                jumped = true;
+                seconds = 1;
+            }
         
         }
 

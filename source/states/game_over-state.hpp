@@ -26,7 +26,7 @@ class GameOverState : public our::State
     ImGui::Begin("gameover State");
     // ImGui::Text("Welcome to our game");
     // ImGui::SameLine();
-    ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(0, 255, 0, 255));
+    ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
 
     ImGui::Text("game over :(");
     ImGui::PopStyleColor();

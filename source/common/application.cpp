@@ -297,10 +297,7 @@ int our::Application::run(int run_for_frames) {
             }
         }
 
-        // TODO: needed to be fix
-         if(keyboard.justPressed(GLFW_KEY_F1)){
-           Application::changeState("menu");
-        }
+      
 
 
         // There are any requested screenshots, take them

@@ -30,19 +30,8 @@
         "lighted": {
           "vs": "assets/shaders/light.vert",
           "fs": "assets/shaders/light.frag"
-        },
-        "menu": {
-          "position": [0, 0, 0],
-          "rotation": [0, 0, 0],
-          "scale": [1, 1, 1],
-          "components": [
-            {
-              "type": "Car",
-              "mesh": "car",
-              "material": "car"
-            }
-          ]
         }
+       
       },
       
       "textures": {
@@ -409,7 +398,10 @@
         "scale": [2.5, 2.5, 2.5],
         "components": [
           {
-            "type": "Car",
+            "type": "Car"
+          },
+          {
+            "type": "Mesh Renderer",
             "mesh": "car",
             "material": "car"
           },
@@ -524,6 +516,28 @@
       //DANGER R1
       {
         "position": [-5, 0, 40],
+        "rotation": [-90, 0, 0],
+        "scale": [0.5, 0.5, 0.5],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cylinder",
+            "material": "danger"
+          },
+          {
+            "type": "Movement",
+            "linearVelocity": [0, 0, 0],
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "danger",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [-5, 0, 50],
         "rotation": [-90, 0, 0],
         "scale": [0.5, 0.5, 0.5],
         "components": [

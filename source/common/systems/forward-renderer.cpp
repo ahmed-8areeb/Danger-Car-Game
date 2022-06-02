@@ -190,7 +190,7 @@ namespace our
             ShaderProgram *program = command.material->shader;
             Mesh *mesh = command.mesh;
             command.material->setup();
-
+            if(!program) return;
             program->set("eye", eye);
             program->set("M", command.localToWorld);
             program->set("MIT", glm::transpose(glm::inverse(command.localToWorld)));
@@ -329,9 +329,9 @@ namespace our
         //     opaqueCommands[i].material->shader->set("transform", VP * opaqueCommands[i].localToWorld);
         //     opaqueCommands[i].mesh->draw();
         // }
-        std::vector<Entity *> cEntities = cars(world);
+        // std::vector<Entity *> cEntities = cars(world);
         ForwardRenderer::excuteCommand(opaqueCommands,VP,lEntities,eye);
-        ForwardRenderer::excuteCommand(opaqueCommands,VP,cEntities,eye);
+        // ForwardRenderer::excuteCommand(opaqueCommands,VP,cEntities,eye);
 
         // If there is a sky material, draw the sky
         if (this->skyMaterial)
@@ -371,7 +371,7 @@ namespace our
         //     transparentCommands[i].material->shader->set("transform", VP * transparentCommands[i].localToWorld);
         //     transparentCommands[i].mesh->draw();
         // }
-         ForwardRenderer::excuteCommand(transparentCommands,VP,lEntities,eye);
+        // ForwardRenderer::excuteCommand(transparentCommands,VP,lEntities,eye);
 
         // If there is a postprocess material, apply postprocessing
         if (postprocessMaterial)
