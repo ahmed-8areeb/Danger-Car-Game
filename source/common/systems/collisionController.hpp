@@ -44,11 +44,11 @@ namespace our
         // }
 
         // This should be called every frame to update all entities containing a FreeCameraControllerComponent
-        void checkCollision(World *world)
+        void checkCollision(World *world,bool &collision)
         {
             // First of all, we search for an entity containing both a CameraComponent and a FreeCameraControllerComponent
             // As soon as we find one, we break
-
+            
             PlayerComponent *player = nullptr;
             for (auto entity : world->getEntities())
             {
@@ -81,13 +81,14 @@ namespace our
             glm::vec3 &carPosition = carEntity->localTransform.position;
             glm::vec3 &carRotation = carEntity->localTransform.rotation;
             glm::vec3 &carScale = carEntity->localTransform.scale;
+            
 
             for (auto entity : world->getEntities())
             {
                 if (auto oEntity = entity->getComponent<CollisionComponent>(); oEntity)
                 {
                     Entity *objEntity = oEntity->getOwner();
-                    glm::vec3 objPosition = objEntity->localTransform.position;
+                    glm::vec3 &objPosition = objEntity->localTransform.position;
 
                     bool collisionX = carPosition.x + 5.0 >= objPosition.x &&
                                       objPosition.x + 5.0 >= carPosition.x;
@@ -109,13 +110,15 @@ namespace our
                               player->health = 0;
                               healthScale.x = 0;
                               //TODO: game over
+                              collision = true;
                               
                             }
                             else{
                                 healthScale.x -= float(damage)/100.0;
                             }   
-                            carPosition.z += 10;
-                            break;
+                            //TODO: return the z to +10
+                            objPosition.z -= 20;
+                            objPosition.y -= 20;
                         }
                         else if (oEntity->obstucaseType == "heart")
                         {
@@ -131,8 +134,8 @@ namespace our
                                 healthScale.x += float(bouns)/100.0;;
                             }
                             carPosition.z += 10;
-                            break;
                         }
+                        break;
                     }
                 }
             }

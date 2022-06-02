@@ -1,5 +1,5 @@
 {
-  "start-scene": "main",
+  "start-scene": "menu",
   "window": {
     "title": "Default Game Window",
     "size": {
@@ -16,6 +16,7 @@
       "sky_middle": [0.3, 0.3, 0.3],
       "sky_bottom": [0.1, 0.1, 0.0]
     },
+
     "assets": {
       "shaders": {
         "tinted": {
@@ -29,8 +30,21 @@
         "lighted": {
           "vs": "assets/shaders/light.vert",
           "fs": "assets/shaders/light.frag"
+        },
+        "menu": {
+          "position": [0, 0, 0],
+          "rotation": [0, 0, 0],
+          "scale": [1, 1, 1],
+          "components": [
+            {
+              "type": "Car",
+              "mesh": "car",
+              "material": "car"
+            }
+          ]
         }
       },
+      
       "textures": {
         "moon": "assets/textures/moon.jpg",
         "road": "assets/textures/road1.jpg",
@@ -53,7 +67,6 @@
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
-        // "monkey": "assets/models/monkey.obj",
         "plane": "assets/models/plane.obj",
         "sphere": "assets/models/sphere.obj",
         "cylinder": "assets/models/cylinder.obj",
@@ -61,7 +74,6 @@
         "tyre": "assets/models/tyre.obj",
         "heart": "assets/models/heart.obj",
         "end": "assets/models/end.obj"
-        // "street": "assets/models/street.obj"
       },
       "samplers": {
         "default": {},
@@ -392,8 +404,7 @@
 
       ///CAR
       {
-    
-        "position": [-5, 1.5, -20],
+        "position": [-5, 1.5, 0],
         "rotation": [0, 180, 0],
         "scale": [2.5, 2.5, 2.5],
         "components": [
@@ -405,7 +416,7 @@
           {
             "type": "Movement",
             "linearVelocity": [0, 0, 10],
-           "angularVelocity": [0, 0, 0]
+            "angularVelocity": [0, 0, 0]
           }
         ],
         "children": [
@@ -431,9 +442,10 @@
                     "type": "Mesh Renderer",
                     "mesh": "cube",
                     "material": "heart"
-                  },{
-                    "type" : "Player",
-                    "health" : 100.0
+                  },
+                  {
+                    "type": "Player",
+                    "health": 100.0
                   }
                 ]
               }
@@ -522,14 +534,14 @@
           },
           {
             "type": "Movement",
+            "linearVelocity": [0, 0, 0],
             "angularVelocity": [0, 90, 0]
           },
           {
-            "type":"Collision",
-            "obstucaseType" :"danger",
-            "effect" : 25
+            "type": "Collision",
+            "obstucaseType": "danger",
+            "effect": 25
           }
-        
         ]
       },
       {
@@ -544,12 +556,13 @@
           },
           {
             "type": "Movement",
+            "linearVelocity": [0, 0, 0],
             "angularVelocity": [0, 90, 0]
           },
           {
-            "type":"Collision",
-            "obstucaseType" :"danger",
-            "effect" : 25
+            "type": "Collision",
+            "obstucaseType": "danger",
+            "effect": 25
           }
         ]
       },
@@ -562,17 +575,17 @@
             "type": "Mesh Renderer",
             "mesh": "cylinder",
             "material": "danger",
-            "obstucaseType" :"danger",
-            "effect" : 25
+            "obstucaseType": "danger",
+            "effect": 25
           },
           {
             "type": "Movement",
             "angularVelocity": [0, 90, 0]
           },
           {
-            "type":"Collision",
-            "obstucaseType" :"danger",
-            "effect" : 25
+            "type": "Collision",
+            "obstucaseType": "danger",
+            "effect": 25
           }
         ]
       },
@@ -592,9 +605,9 @@
             "angularVelocity": [0, 90, 0]
           },
           {
-            "type":"Collision",
-            "obstucaseType" :"danger",
-            "effect" : 25
+            "type": "Collision",
+            "obstucaseType": "danger",
+            "effect": 25
           }
         ]
       },
@@ -613,9 +626,9 @@
             "angularVelocity": [0, 90, 0]
           },
           {
-            "type":"Collision",
-            "obstucaseType" :"danger",
-            "effect" : 25
+            "type": "Collision",
+            "obstucaseType": "danger",
+            "effect": 25
           }
         ]
       },
@@ -767,9 +780,9 @@
             "angularVelocity": [0, 90, 0]
           },
           {
-            "type":"Collision",
-            "obstucaseType" :"heart",
-            "effect" : 25
+            "type": "Collision",
+            "obstucaseType": "heart",
+            "effect": 25
           }
         ]
       },
@@ -788,9 +801,9 @@
             "angularVelocity": [0, 90, 0]
           },
           {
-            "type":"Collision",
-            "obstucaseType" :"heart",
-            "effect" : 25
+            "type": "Collision",
+            "obstucaseType": "heart",
+            "effect": 25
           }
         ]
       },
@@ -810,9 +823,9 @@
             "angularVelocity": [0, 90, 0]
           },
           {
-            "type":"Collision",
-            "obstucaseType" :"heart",
-            "effect" : 25
+            "type": "Collision",
+            "obstucaseType": "heart",
+            "effect": 25
           }
         ]
       },
@@ -913,7 +926,7 @@
       },
 
       /// buildings
-    
+
       {
         "position": [-20, 7, -55],
         "rotation": [0, 90, 0],

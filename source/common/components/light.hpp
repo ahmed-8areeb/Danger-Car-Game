@@ -11,7 +11,7 @@ namespace our
     DIRECTIONAL,
     POINT,
     SPOT
-  };
+};
 
   class LightComponent : public Component
   {

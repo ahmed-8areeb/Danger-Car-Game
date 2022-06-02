@@ -171,6 +171,7 @@ namespace our
         for (int i = 0; i < (int)entities.size(); i++)
         {
             LightComponent *light = entities[i]->getComponent<LightComponent>();
+            if(!light) continue;
             program->set("lights[" + std::to_string(i) + "].type", (int)light->lightType);
             program->set("lights[" + std::to_string(i) + "].diffuse", light->diffuse);
             program->set("lights[" + std::to_string(i) + "].specular", light->specular);
@@ -194,7 +195,7 @@ namespace our
             program->set("M", command.localToWorld);
             program->set("MIT", glm::transpose(glm::inverse(command.localToWorld)));
             program->set("VP", VP);
-            //ForwardRenderer::lightSetup(lEntities, program);
+            ForwardRenderer::lightSetup(lEntities, program);
             program->set("sky.top", this->sky_top);
             program->set("sky.middle",  this->sky_middle);
             program->set("sky.bottom",  this->sky_bottom);

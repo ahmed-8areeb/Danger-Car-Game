@@ -44,9 +44,12 @@ class Playstate: public our::State {
         // Here, we just run a bunch of systems to control the world logic
         movementSystem.update(&world, (float)deltaTime);
        cameraController.update(&world, (float)deltaTime);
+
         carController.update(&world, (float)deltaTime);
-        collisionController.checkCollision(&world);
-       
+        bool Collision = false;
+        collisionController.checkCollision(&world,Collision);
+        if(Collision)
+            this->getApp()->changeState("gameOver");
         // And finally we use the renderer system to draw the scene
         renderer.render(&world);
     }

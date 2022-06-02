@@ -12,7 +12,7 @@ namespace our
          if (!data.is_object())
             return;
     
-        //cvelocity = glm::vec3(data["cvelocity"]);
+       // cvelocity = glm::vec3(data["cvelocity"]);
        /// cvelocity = data.value("cvelocity", cvelocity);
         mesh = AssetLoader<Mesh>::get(data["mesh"].get<std::string>());
         material = AssetLoader<Material>::get(data["material"].get<std::string>());

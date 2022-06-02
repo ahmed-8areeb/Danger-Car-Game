@@ -2,6 +2,7 @@
 
 #include <application.hpp>
 #include <ecs/world.hpp>
+#include "play-state.hpp"
 #include <systems/forward-renderer.hpp>
 #include <systems/free-camera-controller.hpp>
 #include <systems/movement.hpp>
@@ -16,21 +17,32 @@ class MenuState : public our::State
   our::ForwardRenderer renderer;
   our::FreeCameraControllerSystem cameraController;
   our::MovementSystem movementSystem;
+  
 
   void onImmediateGui() override
   {
     int score = 0;
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ImGui::Begin("Menu State");
-    ImGui::Text("Your Score is: %d", score);
-    
+    // ImGui::Text("Welcome to our game");
+    // ImGui::SameLine();
+    ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(0, 255, 0, 255));
+
+    ImGui::Text("Welcome to our game");
+    ImGui::PopStyleColor();
+
     if (ImGui::Button("Start"))
     {
-      // switch to play mode
+      this->getApp()->changeState("main");
     }
-    ImGui::Text("to exit from play mode press ESC");
+    ImGui::Text("Do you want to exit the game ?");
+    if (ImGui::Button("Yes"))
+    {
+      exit(1);
+    }
     ImGui::End();
   }
-/*
+
   void onInitialize() override
   {
     // First of all, we get the scene configuration from the app config
@@ -41,34 +53,24 @@ class MenuState : public our::State
       our::deserializeAllAssets(config["assets"]);
     }
     // If we have a world in the scene config, we use it to populate our world
-    if (config.contains("world"))
+    if (config.contains("menu"))
     {
-      world.deserialize(config["world"]);
+      world.deserialize(config["menu"]);
     }
-    // We initialize the camera controller system since it needs a pointer to the app
-    cameraController.enter(getApp());
-    // Then we initialize the renderer
-    auto size = getApp()->getFrameBufferSize();
-    renderer.initialize(size, config["renderer"]);
   }
 
   void onDraw(double deltaTime) override
   {
-    // Here, we just run a bunch of systems to control the world logic
-    movementSystem.update(&world, (float)deltaTime);
-    cameraController.update(&world, (float)deltaTime);
     // And finally we use the renderer system to draw the scene
     renderer.render(&world);
   }
-  */
 
-  // void onDestroy() override
-  // {
-  //   // Don't forget to destroy the renderer
-  //   renderer.destroy();
-  //   // On exit, we call exit for the camera controller system to make sure that the mouse is unlocked
-  //   cameraController.exit();
-  //   // and we delete all the loaded assets to free memory on the RAM and the VRAM
-  //   our::clearAllAssets();
-  // }
+  void onDestroy() override
+  {
+    // Don't forget to destroy the renderer
+    renderer.destroy();
+    // On exit, we call exit for the camera controller system to make sure that the mouse is unlocked
+    // and we delete all the loaded assets to free memory on the RAM and the VRAM
+    our::clearAllAssets();
+  }
 };

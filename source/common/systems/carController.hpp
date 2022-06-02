@@ -74,20 +74,7 @@ namespace our
                       right = glm::vec3(matrix * glm::vec4(1, 0, 0, 0));
 
        
-            // If the LEFT SHIFT key is pressed, we multiply the position sensitivity by the speed up factor
-
-            // We change the camera position based on the keys WASD/QE
-            // S & W moves the player back and forth
-
-            // if(app->getKeyboard().isPressed(GLFW_KEY_I)) position += front * (deltaTime * velocity.z);
-            // if(app->getKeyboard().isPressed(GLFW_KEY_K)) position -= front * (deltaTime * velocity.z);
-            // if(app->getKeyboard().isPressed(GLFW_KEY_D)) position += front * (deltaTime *2);
-            // if(app->getKeyboard().isPressed(GLFW_KEY_A)) position -= front * (deltaTime * 2);
-            // // Q & E moves the player up and down
-            // // if(app->getKeyboard().isPressed(GLFW_KEY_Q)) position += up * (deltaTime * current_sensitivity.y);
-            // // if(app->getKeyboard().isPressed(GLFW_KEY_E)) position -= up * (deltaTime * current_sensitivity.y);
-            // if(app->getKeyboard().isPressed(GLFW_KEY_D)) position += up * (deltaTime *2);
-            // if(app->getKeyboard().isPressed(GLFW_KEY_A)) position -= up * (deltaTime * 2);
+            
             // A & D moves the player left or right 
             if(app->getKeyboard().isPressed(GLFW_KEY_D) && position.x>-10.0f) position += right * (deltaTime *2);
             if(app->getKeyboard().isPressed(GLFW_KEY_A)  && position.x<10.0f) position -= right * (deltaTime * 2);

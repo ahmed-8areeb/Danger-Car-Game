@@ -237,6 +237,8 @@ int our::Application::run(int run_for_frames) {
     double last_frame_time = glfwGetTime();
     int current_frame = 0;
 
+   // bool menuState = false;
+   
     //Game loop
     while(!glfwWindowShouldClose(window)){
         if(run_for_frames != 0 && current_frame >= run_for_frames) break;
@@ -246,8 +248,11 @@ int our::Application::run(int run_for_frames) {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
+        
         if(currentState) currentState->onImmediateGui(); // Call to run any required Immediate GUI.
+
+        // if(menuState) Application::changeState("main"); 
+
 
         // If ImGui is using the mouse or keyboard, then we don't want the captured events to affect our keyboard and mouse objects.
         // For example, if you're focusing on an input and writing "W", the keyboard object shouldn't record this event.
@@ -291,6 +296,13 @@ int our::Application::run(int run_for_frames) {
                 std::cerr << "Failed to save a Screenshot" << std::endl;
             }
         }
+
+        // TODO: needed to be fix
+         if(keyboard.justPressed(GLFW_KEY_F1)){
+           Application::changeState("menu");
+        }
+
+
         // There are any requested screenshots, take them
         while(requested_screenshots.size()){ 
             if(const auto& request = requested_screenshots.top(); request.first == current_frame){
