@@ -12,9 +12,10 @@
     "renderer": {
       "sky": "assets/textures/sky.jpg",
       "postprocess": "assets/shaders/postprocess/vignette.frag",
-      "sky_top": [5.6, 5.7, 5.8],
-      "sky_middle": [1.3, 1.3, 1.3],
-      "sky_bottom": [1.1, 1.1, 1.1]
+      "lightfrag": "assets/shaders/light.frag",
+      "sky_top": [1.4, 1.4, 1.4],
+      "sky_middle": [1.2, 1.2, 1.2],
+      "sky_bottom": [1.6, 1.6, 1.6]
     },
 
     "assets": {
@@ -63,7 +64,11 @@
         "tree": "assets/textures/tree.jpg",
         "end": "assets/textures/start.png",
         "black": "assets/textures/black.jpg",
-        "white": "assets/textures/white.svg.png"
+        "white": "assets/textures/white.svg.png",
+        "street_specular": "assets/textures/street_specular.jpg",
+        "street_roughness": "assets/textures/street_roughness.jpg",
+        "street_ambient": "assets/textures/street_ambient.jpg",
+        "heart_emissive": "assets/textures/heart_emissive.ppg"
       },
       "meshes": {
         "cube": "assets/models/cube.obj",
@@ -151,13 +156,19 @@
               "enabled": true
             }
           },
-          "tint": [1, 1, 1, 1],
-          "texture": "road",
+          // "tint": [1, 1, 1, 1],
+          "texture":"road",
           "sampler": "default"
+          // "albedo_texture": "road",
+          // "specular_texture":"road",
+          // "roughness_texture":"road",
+          // "emissive_texture":"black",
+          // "alpha_texture":"alpha",
+          // "ambientOcclusion_texture":"road"
         },
         "tower": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lighted",
+          "shader": "lighted",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -168,12 +179,17 @@
             }
           },
           "tint": [1, 1, 1, 1],
-          "texture": "tower",
-          "sampler": "default"
+          "albedo_texture": "tower",
+          "specular_texture":"tower",
+          "roughness_texture":"tower",
+          "emissive_texture":"black",
+          "alpha_texture":"alpha",
+          "ambientOcclusion_texture":"tower"
+          // "sampler": "default"
         },
         "heart": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lighted",
+          "shader": "lighted",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -183,8 +199,14 @@
             }
           },
           "tint": [1, 1, 1, 1],
-          "texture": "heart",
-          "sampler": "default"
+          // "texture": "heart",
+          // "sampler": "default"
+          "albedo_texture": "heart",
+          "specular_texture":"heart",
+          "roughness_texture":"heart",
+          "emissive_texture":"heart_emissive",
+          "alpha_texture":"alpha",
+          "ambientOcclusion_texture":"heart"
         },
         // "monkey":{
         //     "type": "lighted",
@@ -224,7 +246,7 @@
           "roughness_texture":"black",
           "emissive_texture":"black",
           "alpha_texture":"alpha",
-          "ambientOcclusion_texture":"white"
+          "ambientOcclusion_texture":"moon"
         },
         "car": {
           "type": "lighted",
@@ -237,13 +259,20 @@
               "enabled": true
             }
           },
+          // "albedo_texture":"car",
+          // // "texture": "car",
+          // "specular_texture":"car",
+          // "roughness_texture":"black",
+          // "emissive_texture":"black",
+          // "alpha_texture":"alpha",
+          // "ambientOcclusion_texture":"white",
           "albedo_texture":"car",
-          // "texture": "car",
           "specular_texture":"car",
-          "roughness_texture":"black",
+          "roughness_texture":"car",
           "emissive_texture":"black",
           "alpha_texture":"alpha",
-          "ambientOcclusion_texture":"white",
+          "ambientOcclusion_texture":"car",
+
           "tint": [1, 1, 1, 1]
           // "type": "textured",
           // "shader": "textured",
@@ -275,8 +304,8 @@
           "sampler": "default"
         },
         "danger": {
-          "type": "textured",
-          "shader": "textured",
+          "type": "lighted",
+          "shader": "lighted",
           "pipelineState": {
             "faceCulling": {
               "enabled": false
@@ -286,12 +315,30 @@
             }
           },
           "tint": [1, 1, 1, 1],
-          "texture": "danger",
-          "sampler": "default"
+          // "texture": "danger",
+          // "sampler": "default"
+          "albedo_texture":"danger",
+          "specular_texture":"danger",
+          "roughness_texture":"danger",
+          "emissive_texture":"black",
+          "alpha_texture":"alpha",
+          "ambientOcclusion_texture":"danger"
         }
       }
     },
     "world": [
+            // directional light
+      {
+            "rotation": [-45,-45,0],
+                "components": [
+                    {
+                        "type": "Light",
+                        "lightType": "directional",
+                        "diffuse": [0.9,0.9,0.9],
+                        "specular": [0.9,0.9,0.9 ]
+                    }
+                ]
+            },
       //   {
       //     "position": [0, 7, 0],
       //     "rotation": [0, 180, 0],
@@ -423,30 +470,7 @@
           }
         ]
       },
-      // directional light
-      {
-                "rotation": [
-                    0,
-                    0,
-                    60
-                ],
-                "components": [
-                    {
-                        "type": "Light",
-                        "lightType": "directional",
-                        "diffuse": [
-                            3.6,
-                            3.4,
-                            3.25
-                        ],
-                        "specular": [
-                            3.6,
-                            3.4,
-                            3.25
-                        ]
-                    }
-                ]
-            },
+
 
       ///CAR
       {
@@ -561,7 +585,20 @@
                 //"angularVelocity": [0, 90, 0]
               }
             ]
-          }
+          },
+          {
+
+                "rotation": [0,0,0],
+                "components": [
+                    {
+                        "type": "Light",
+                        "lightType": "directional",
+                        "diffuse": [3.6,3.4,3.25],
+                        "specular": [3.6,3.4,3.25],
+                        "cone_angles":[45,90]
+                    }
+                ]
+            }
         ]
       },
 

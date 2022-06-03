@@ -4,6 +4,7 @@
 #include "../texture/texture-utils.hpp"
 #include <vector>
 #include <glm/gtx/euler_angles.hpp>
+#include <iostream>
 
 namespace our
 {
@@ -178,6 +179,10 @@ namespace our
             program->set("lights[" + std::to_string(i) + "].position", entities[i]->localTransform.position);
             glm::vec3 rotation = entities[i]->localTransform.rotation;
             program->set("lights[" + std::to_string(i) + "].direction", (glm::vec3)((glm::yawPitchRoll(rotation[1], rotation[0], rotation[2]) * (glm::vec4(0, -1, 0, 0)))));
+
+            // std::cout << "x component of light" << light->diffuse.x << std::endl;
+            // std::cout << "y component of light" << light->diffuse.y << std::endl;
+            // std::cout << "z component of light" << light->diffuse.z << std::endl;
         }
     }
 
