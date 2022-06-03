@@ -4,6 +4,7 @@
 #include "../texture/texture-utils.hpp"
 #include <vector>
 #include <glm/gtx/euler_angles.hpp>
+#include <iostream>
 
 namespace our
 {
@@ -178,6 +179,10 @@ namespace our
             program->set("lights[" + std::to_string(i) + "].position", entities[i]->localTransform.position);
             glm::vec3 rotation = entities[i]->localTransform.rotation;
             program->set("lights[" + std::to_string(i) + "].direction", (glm::vec3)((glm::yawPitchRoll(rotation[1], rotation[0], rotation[2]) * (glm::vec4(0, -1, 0, 0)))));
+
+            // std::cout << "x component of light" << light->diffuse.x << std::endl;
+            // std::cout << "y component of light" << light->diffuse.y << std::endl;
+            // std::cout << "z component of light" << light->diffuse.z << std::endl;
         }
     }
 
@@ -384,6 +389,13 @@ namespace our
             // TODO: (Req 10) Setup the postprocess material and draw the fullscreen triangle
             // from textured material
             postprocessMaterial->setup();
+             glActiveTexture(GL_TEXTURE1);
+            ShaderProgram* shader=postprocessMaterial->shader;
+            depthTarget->bind();
+            postprocessMaterial->sampler->bind(1);
+            shader->set("depth_sampler", 1);
+            shader->set("inverse_projection",glm::inverse(camera->getProjectionMatrix(windowSize)));
+            glActiveTexture(GL_TEXTURE0);
             glBindVertexArray(postProcessVertexArray);
             glDrawArrays(GL_TRIANGLES, 0, 3);
         }

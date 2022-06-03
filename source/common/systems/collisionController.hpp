@@ -145,6 +145,7 @@ namespace our
                             //TODO: game over
                               collision = true;
                         }
+                        
                         break;
                     }
                 }
