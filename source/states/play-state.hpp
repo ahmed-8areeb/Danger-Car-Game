@@ -21,8 +21,8 @@ class Playstate: public our::State {
     our::CollisionControllerSystem collisionController;
     bool alreadyInitialized = false;
     void onInitialize() override {
-        //if(alreadyInitialized) return ;
-        //alreadyInitialized = true;
+    //    if(alreadyInitialized) return ;
+      //  alreadyInitialized = true;
         // First of all, we get the scene configuration from the app config
         auto& config = getApp()->getConfig()["scene"];
         // If we have assets in the scene config, we deserialize them
@@ -63,7 +63,7 @@ class Playstate: public our::State {
     }
 
     void onDestroy() override {
-        // Don't forget to destroy the renderer
+        //Don't forget to destroy the renderer
         // renderer.destroy();
         // // // On exit, we call exit for the camera controller system to make sure that the mouse is unlocked
         // cameraController.exit();

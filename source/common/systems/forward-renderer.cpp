@@ -8,7 +8,6 @@
 namespace our
 {
 
-
     void ForwardRenderer::initialize(glm::ivec2 windowSize, const nlohmann::json &config)
     {
         // First, we store the window size for later use
@@ -112,7 +111,6 @@ namespace our
         //     lightShader->attach("assets/shaders/light.frag", GL_FRAGMENT_SHADER);
         //     lightShader->link();
         // }
-
     }
 
     void ForwardRenderer::destroy()
@@ -151,7 +149,7 @@ namespace our
 
         return lEntities;
     }
-     std::vector<Entity *>cars(World *world)
+    std::vector<Entity *> cars(World *world)
     {
         std::vector<Entity *> lEntities;
         for (auto entity : world->getEntities())
@@ -171,7 +169,7 @@ namespace our
         for (int i = 0; i < (int)entities.size(); i++)
         {
             LightComponent *light = entities[i]->getComponent<LightComponent>();
-            if(!light) continue;
+            // if(!light) continue;
             program->set("lights[" + std::to_string(i) + "].type", (int)light->lightType);
             program->set("lights[" + std::to_string(i) + "].diffuse", light->diffuse);
             program->set("lights[" + std::to_string(i) + "].specular", light->specular);
@@ -183,7 +181,7 @@ namespace our
         }
     }
 
-    void ForwardRenderer::excuteCommand(std::vector<RenderCommand> commands,glm::mat4 VP,std::vector<Entity *> lEntities,glm::vec3 eye)
+    void ForwardRenderer::excuteCommand(std::vector<RenderCommand> commands, glm::mat4 VP, std::vector<Entity *> lEntities, glm::vec3 eye)
     {
         for (RenderCommand command : commands)
         {
@@ -197,8 +195,8 @@ namespace our
             program->set("VP", VP);
             ForwardRenderer::lightSetup(lEntities, program);
             program->set("sky.top", this->sky_top);
-            program->set("sky.middle",  this->sky_middle);
-            program->set("sky.bottom",  this->sky_bottom);
+            program->set("sky.middle", this->sky_middle);
+            program->set("sky.bottom", this->sky_bottom);
 
             // program->set("transform", VP * command.localToWorld);
             mesh->draw();
@@ -235,16 +233,18 @@ namespace our
                     // Otherwise, we add it to the opaque command list
                     opaqueCommands.push_back(command);
                 }
-            }else if(auto meshRenderer = entity->getComponent<CarComponent>(); meshRenderer){
+            }
+            else if (auto meshRenderer = entity->getComponent<CarComponent>(); meshRenderer)
+            {
                 RenderCommand command;
                 command.localToWorld = meshRenderer->getOwner()->getLocalToWorldMatrix();
                 command.center = glm::vec3(command.localToWorld * glm::vec4(0, 0, 0, 1));
                 command.mesh = meshRenderer->mesh;
                 command.material = meshRenderer->material;
                 // if it is transparent, we add it to the transparent commands list
-              
-                    // Otherwise, we add it to the opaque command list
-                    opaqueCommands.push_back(command);
+
+                // Otherwise, we add it to the opaque command list
+                opaqueCommands.push_back(command);
             }
         }
 
@@ -298,26 +298,26 @@ namespace our
         glClear(GL_DEPTH_BUFFER_BIT);
 
         std::vector<Entity *> lEntities = lightedEntities(world);
-        glm::vec3 eye = glm::vec3(camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(glm::vec3(0, 0, 0), 1.0f)); 
-      //  auto executeCommands = [&VP, &camera, &lEntities, this](std::vector<RenderCommand> commands)
+        glm::vec3 eye = glm::vec3(camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(glm::vec3(0, 0, 0), 1.0f));
+        //  auto executeCommands = [&VP, &camera, &lEntities, this](std::vector<RenderCommand> commands)
         //{
-            // for (RenderCommand command : commands)
-            // {
-            //     ShaderProgram *program = command.material->shader;
-            //     Mesh *mesh = command.mesh;
-            //     command.material->setup();
+        // for (RenderCommand command : commands)
+        // {
+        //     ShaderProgram *program = command.material->shader;
+        //     Mesh *mesh = command.mesh;
+        //     command.material->setup();
 
-            //     program->set("eye", glm::vec3(camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(glm::vec3(0, 0, 0), 1.0f)));
-            //     program->set("M", command.localToWorld);
-            //     program->set("MIT", glm::transpose(glm::inverse(command.localToWorld)));
-            //     program->set("VP", VP);
-            //     lightSetup(lEntities, program);
-            //     program->set("sky.top", this->sky_top);
-            //     program->set("sky.middle", this->sky_middle);
-            //     program->set("sky.bottom", this->sky_bottom);
-            //     mesh->draw();
-            // }
-       // };
+        //     program->set("eye", glm::vec3(camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(glm::vec3(0, 0, 0), 1.0f)));
+        //     program->set("M", command.localToWorld);
+        //     program->set("MIT", glm::transpose(glm::inverse(command.localToWorld)));
+        //     program->set("VP", VP);
+        //     lightSetup(lEntities, program);
+        //     program->set("sky.top", this->sky_top);
+        //     program->set("sky.middle", this->sky_middle);
+        //     program->set("sky.bottom", this->sky_bottom);
+        //     mesh->draw();
+        // }
+        // };
 
         // TODO: (Req 8) Draw all the opaque commands
         //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
@@ -358,7 +358,7 @@ namespace our
             // TODO: (Req 9) set the "transform" uniform
 
             skyMaterial->shader->set("VP", alwaysBehindTransform * VP);
-            skyMaterial->shader->set("M",transform);
+            skyMaterial->shader->set("M", transform);
             // TODO: (Req 9) draw the sky sphere
             skySphere->draw();
         }
@@ -371,7 +371,9 @@ namespace our
         //     transparentCommands[i].material->shader->set("transform", VP * transparentCommands[i].localToWorld);
         //     transparentCommands[i].mesh->draw();
         // }
-        // ForwardRenderer::excuteCommand(transparentCommands,VP,lEntities,eye);
+
+
+        ForwardRenderer::excuteCommand(transparentCommands,VP,lEntities,eye);
 
         // If there is a postprocess material, apply postprocessing
         if (postprocessMaterial)

@@ -24,14 +24,16 @@ class GameOverState : public our::State
     int score = 0;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ImGui::Begin("gameover State");
-    // ImGui::Text("Welcome to our game");
-    // ImGui::SameLine();
+
+    ImGui::SetWindowFontScale(2.0f);
+
     ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
 
     ImGui::Text("game over :(");
     ImGui::PopStyleColor();
-
+    ImGui::Text(" ");
     ImGui::Text("Do you want to exit the game ?");
+    ImGui::Text(" ");
     if (ImGui::Button("Yes"))
     {
       exit(1);

@@ -90,5 +90,6 @@ void main(){
         }
 
         frag_color.rgb += (diffuse + specular) * attenuation;
+        frag_color.a = 1;
     }
 }

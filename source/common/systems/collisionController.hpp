@@ -89,17 +89,22 @@ namespace our
                 {
                     Entity *objEntity = oEntity->getOwner();
                     glm::vec3 &objPosition = objEntity->localTransform.position;
+                    glm::vec3 &objScale = objEntity->localTransform.scale;
 
                     bool collisionX = carPosition.x + 5.0 >= objPosition.x &&
                                       objPosition.x + 5.0 >= carPosition.x;
                     // collision y-axis?
-                    bool collisionY = carPosition.z + 3.0 >= objPosition.z &&
+                    bool collisionY = carPosition.y - 1.5  < objPosition.y+objScale.y/2;
+                                     
+                    // std::cout<<carPosition.y<<" "<<objPosition.y+objScale.y/2<<"\n";
+                    bool collisionZ = carPosition.z + 3.0 >= objPosition.z &&
                                       objPosition.z + 3.0 >= carPosition.z;
+
                     // collision only if on both axes
-                    if (collisionX && collisionY)
+                    if (collisionX && collisionZ)
                     {
                         // collision logic
-                        if (oEntity->obstucaseType == "danger")
+                        if (oEntity->obstucaseType == "danger"||(oEntity->obstucaseType == "tree"&&collisionY))
                         {
 
                             // collision logic for danger
@@ -135,6 +140,10 @@ namespace our
                             }
                             objPosition.z -= 20;
                             objPosition.y -= 20;
+                        }
+                        else if(oEntity->obstucaseType == "finish"){
+                            //TODO: game over
+                              collision = true;
                         }
                         break;
                     }
