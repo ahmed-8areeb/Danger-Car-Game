@@ -190,6 +190,7 @@ namespace our
     {
         for (RenderCommand command : commands)
         {
+            if(!command.draw) continue;
             ShaderProgram *program = command.material->shader;
             Mesh *mesh = command.mesh;
             command.material->setup();
@@ -228,6 +229,7 @@ namespace our
                 command.center = glm::vec3(command.localToWorld * glm::vec4(0, 0, 0, 1));
                 command.mesh = meshRenderer->mesh;
                 command.material = meshRenderer->material;
+                command.draw = entity->canDraw;
                 // if it is transparent, we add it to the transparent commands list
                 if (command.material->transparent)
                 {

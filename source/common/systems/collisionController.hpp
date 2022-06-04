@@ -31,20 +31,8 @@ namespace our
             this->app = app;
         }
 
-        // bool CheckCollision(Entity *entity1, GameObject &two) // AABB - AABB collision
-        // {
-        //     // collision x-axis?
-        //     bool collisionX = one.Position.x + one.Size.x >= two.Position.x &&
-        //                       two.Position.x + two.Size.x >= one.Position.x;
-        //     // collision y-axis?
-        //     bool collisionY = one.Position.y + one.Size.y >= two.Position.y &&
-        //                       two.Position.y + two.Size.y >= one.Position.y;
-        //     // collision only if on both axes
-        //     return collisionX && collisionY;
-        // }
-
         // This should be called every frame to update all entities containing a FreeCameraControllerComponent
-        bool checkCollision(World *world, bool &finished)
+        bool checkCollision(World *world, bool &finished, std::vector<bool> &collisionMarker)
         {
             // First of all, we search for an entity containing both a CameraComponent and a FreeCameraControllerComponent
             // As soon as we find one, we break
@@ -82,22 +70,29 @@ namespace our
             glm::vec3 &carRotation = carEntity->localTransform.rotation;
             glm::vec3 &carScale = carEntity->localTransform.scale;
 
-        
+            int i = 0;
             for (auto entity : world->getEntities())
             {
                 if (auto oEntity = entity->getComponent<CollisionComponent>(); oEntity)
                 {
+                    // if this component is marked as collision so will not check for each collision again
+                    if (collisionMarker[i])
+                    {
+                        i++;
+                        continue;
+                    }
                     Entity *objEntity = oEntity->getOwner();
                     glm::vec3 &objPosition = objEntity->localTransform.position;
                     glm::vec3 &objScale = objEntity->localTransform.scale;
-
-                    bool collisionX = carPosition.x + 5.0 >= objPosition.x &&
+                    
+                    //AABB Collision Detection
+                    bool collisionX = carPosition.x + 4.0 >= objPosition.x &&
                                       objPosition.x + 5.0 >= carPosition.x;
                     // collision y-axis?
                     bool collisionY = carPosition.y - 1.5 < objPosition.y + objScale.y / 2;
 
                     // std::cout<<carPosition.y<<" "<<objPosition.y+objScale.y/2<<"\n";
-                    bool collisionZ = carPosition.z + 3.0 >= objPosition.z &&
+                    bool collisionZ = carPosition.z + 2*carScale.z >= objPosition.z &&
                                       objPosition.z + 3.0 >= carPosition.z;
 
                     // collision only if on both axes
@@ -122,9 +117,10 @@ namespace our
                             {
                                 healthScale.x -= float(damage) / 100.0;
                             }
-                            // TODO: return the z to +10
-                            objPosition.z -= 20;
-                            objPosition.y -= 20;
+                            // objPosition.z -= 20;
+                            // objPosition.y -= 20;
+                            collisionMarker[i] = true;
+                            objEntity->canDraw = false;
                         }
                         else if (oEntity->obstucaseType == "heart")
                         {
@@ -141,13 +137,18 @@ namespace our
                                 healthScale.x += float(bouns) / 100.0;
                                 ;
                             }
-                            objPosition.z -= 20;
-                            objPosition.y -= 20;
-                        }else if(oEntity->obstucaseType == "coins"){
+                            // objPosition.z -= 20;
+                            // objPosition.y -= 20;
+                            collisionMarker[i] = true;
+                            objEntity->canDraw = false;
+                        }
+                        else if (oEntity->obstucaseType == "coins")
+                        {
                             player->coins++;
-                            std::cout<<player->coins<<"\n";
-                            objPosition.z -= 20;
-                            objPosition.y -= 20;
+                            // objPosition.z -= 20;
+                            // objPosition.y -= 20;
+                            collisionMarker[i] = true;
+                            objEntity->canDraw = false;
                         }
                         else if (oEntity->obstucaseType == "finish")
                         {
@@ -157,6 +158,7 @@ namespace our
 
                         break;
                     }
+                    i++;
                 }
             }
             return collision;

@@ -35,23 +35,30 @@ class GameOverState : public our::State
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ImGui::Begin("gameover State");
 
-    ImGui::SetWindowFontScale(2.0f);
+    ImGui::SetWindowFontScale(4.0f);
+    ImGui::SetWindowSize(ImVec2((float)900, (float)500));
 
-    ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
-  
-    if(state == 0)
+    if(state == 0){
+      ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
       ImGui::Text("Game Over");
+      ImGui::Text("your car is totally damaged");
+      ImGui::PopStyleColor();
+    }
     else if(state == 1){
+       ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
       ImGui::Text("Game Over");
        ImGui::Text("you failed to collect at least half the coins");
+       ImGui::PopStyleColor();
     }else if(state == 2){
-       ImGui::Text("wow, you collect all the coins");
+       ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(0, 255, 0, 255));
+       ImGui::Text("congratulations");
+       ImGui::Text("you collect all the coins");
+       ImGui::PopStyleColor();
     }
-    
-    ImGui::PopStyleColor();
+ 
     
     ImGui::Text(" ");
-    ImGui::Text("Do you want to exit the game ?");
+    ImGui::Text("click yes or press enter to exit the game");
     ImGui::Text(" ");
     if (ImGui::Button("Yes")||getApp()->getKeyboard().isPressed(GLFW_KEY_ENTER))
     {

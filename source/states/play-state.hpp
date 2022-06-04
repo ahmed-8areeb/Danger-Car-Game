@@ -8,8 +8,10 @@
 #include <systems/carController.hpp>
 #include <systems/gameController.hpp>
 #include <systems/collisionController.hpp>
+#include <../common/components/collision.hpp>
 #include <systems/movement.hpp>
 #include <asset-loader.hpp>
+#include<vector>
 
 // This state shows how to use the ECS framework and deserialization.
 class Playstate : public our::State
@@ -22,8 +24,8 @@ class Playstate : public our::State
     our::CarControllerSystem carController;
     our::CollisionControllerSystem collisionController;
     our::GameControllerSystem gameController;
-
-    bool alreadyInitialized = false;
+    std::vector<bool> collisionMarker;
+    bool finishInitialized = false;
     void onInitialize() override
     {
         //    if(alreadyInitialized) return ;
@@ -47,6 +49,11 @@ class Playstate : public our::State
         // Then we initialize the renderer
         auto size = getApp()->getFrameBufferSize();
         renderer.initialize(size, config["renderer"]);
+        int s = 0;
+        for (auto entity : world.getEntities())
+            if(entity->getComponent<our::CollisionComponent>())
+                s++;
+        collisionMarker.resize(s,0);
     }
 
     void onDraw(double deltaTime) override
@@ -56,7 +63,8 @@ class Playstate : public our::State
         cameraController.update(&world, (float)deltaTime);
         carController.update(&world, (float)deltaTime);
         bool finished = false;
-        if (collisionController.checkCollision(&world, finished)){
+        if (collisionController.checkCollision(&world, finished,collisionMarker))
+        {
             getApp()->state = 0;
             getApp()->changeState("gameOver");
         }
@@ -65,18 +73,19 @@ class Playstate : public our::State
         {
             if (gameController.checkWin(&world))
             {
-               getApp()->state = 2;
+                getApp()->state = 2;
                 getApp()->changeState("gameOver");
             }
             else
             {
-                 getApp()->state = 1;
+                getApp()->state = 1;
                 getApp()->changeState("gameOver");
             }
         }
 
         if (!gameController.checkHealth(&world, (float)deltaTime))
         {
+            getApp()->state = 0;
             getApp()->changeState("gameOver");
         }
         // And finally we use the renderer system to draw the scene

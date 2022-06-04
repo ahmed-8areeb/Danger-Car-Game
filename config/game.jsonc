@@ -594,7 +594,7 @@
           },
           {
             "type": "Movement",
-            "linearVelocity": [0, 0, 10],
+            "linearVelocity": [0, 0, 15],
             "angularVelocity": [0, 0, 0]
           }
         ],
@@ -1393,7 +1393,7 @@
       // coins
 
       {
-        "position": [0, 0, 50],
+        "position": [0, 0, 60],
         "rotation": [-90, 0, 0],
         "scale": [0.15, 0.15, 0.15],
         "components": [
@@ -1935,18 +1935,6 @@
             "type": "Collision",
             "obstucaseType": "finish",
             "effect": 0
-          }
-        ]
-      },
-      {
-        "position": [0, 0, 50],
-        "rotation": [-90, 0, 0],
-        "scale": [0.15, 0.15, 0.15],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "coin",
-            "material": "coin"
           }
         ]
       }
