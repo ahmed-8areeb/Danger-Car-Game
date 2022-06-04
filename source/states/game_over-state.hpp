@@ -3,11 +3,17 @@
 #include <application.hpp>
 #include <ecs/world.hpp>
 #include "play-state.hpp"
+#include "../common/components/player.hpp"
 #include <systems/forward-renderer.hpp>
 #include <systems/free-camera-controller.hpp>
+#include <systems/gameController.hpp>
 #include <systems/movement.hpp>
 #include <asset-loader.hpp>
 #include "imgui.h"
+#include <string>
+#include <cstring>
+
+
 
 // This state shows how to use the ECS framework and deserialization.
 class GameOverState : public our::State
@@ -17,30 +23,43 @@ class GameOverState : public our::State
   our::ForwardRenderer renderer;
   our::FreeCameraControllerSystem cameraController;
   our::MovementSystem movementSystem;
-  
+  our::PlayerComponent * player;
+  our::GameControllerSystem * game;
 
+
+  
   void onImmediateGui() override
   {
-    int score = 0;
+    int state = getApp()->state;
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ImGui::Begin("gameover State");
 
     ImGui::SetWindowFontScale(2.0f);
 
     ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
-
-    ImGui::Text("game over :(");
+  
+    if(state == 0)
+      ImGui::Text("Game Over");
+    else if(state == 1){
+      ImGui::Text("Game Over");
+       ImGui::Text("you failed to collect at least half the coins");
+    }else if(state == 2){
+       ImGui::Text("wow, you collect all the coins");
+    }
+    
     ImGui::PopStyleColor();
+    
     ImGui::Text(" ");
     ImGui::Text("Do you want to exit the game ?");
     ImGui::Text(" ");
-    if (ImGui::Button("Yes"))
+    if (ImGui::Button("Yes")||getApp()->getKeyboard().isPressed(GLFW_KEY_ENTER))
     {
       exit(1);
     }
     ImGui::End();
   }
-
+  
   void onInitialize() override
   {
     // First of all, we get the scene configuration from the app config
@@ -71,4 +90,5 @@ class GameOverState : public our::State
     // and we delete all the loaded assets to free memory on the RAM and the VRAM
     our::clearAllAssets();
   }
+
 };

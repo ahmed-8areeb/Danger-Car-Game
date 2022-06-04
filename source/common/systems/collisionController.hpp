@@ -44,11 +44,11 @@ namespace our
         // }
 
         // This should be called every frame to update all entities containing a FreeCameraControllerComponent
-        void checkCollision(World *world,bool &collision)
+        bool checkCollision(World *world, bool &finished)
         {
             // First of all, we search for an entity containing both a CameraComponent and a FreeCameraControllerComponent
             // As soon as we find one, we break
-            
+            bool collision = false;
             PlayerComponent *player = nullptr;
             for (auto entity : world->getEntities())
             {
@@ -58,7 +58,7 @@ namespace our
             }
             // If there is no entity of a car we can do nothing so we return
             if (!(player))
-                return;
+                return true;
             Entity *playerEntity = player->getOwner();
             glm::vec3 &healthScale = playerEntity->localTransform.scale;
 
@@ -73,7 +73,7 @@ namespace our
             }
             // If there is no entity of a car we can do nothing so we return
             if (!(car))
-                return;
+                return true;
 
             Entity *carEntity = car->getOwner();
 
@@ -81,8 +81,8 @@ namespace our
             glm::vec3 &carPosition = carEntity->localTransform.position;
             glm::vec3 &carRotation = carEntity->localTransform.rotation;
             glm::vec3 &carScale = carEntity->localTransform.scale;
-            
 
+        
             for (auto entity : world->getEntities())
             {
                 if (auto oEntity = entity->getComponent<CollisionComponent>(); oEntity)
@@ -94,8 +94,8 @@ namespace our
                     bool collisionX = carPosition.x + 5.0 >= objPosition.x &&
                                       objPosition.x + 5.0 >= carPosition.x;
                     // collision y-axis?
-                    bool collisionY = carPosition.y - 1.5  < objPosition.y+objScale.y/2;
-                                     
+                    bool collisionY = carPosition.y - 1.5 < objPosition.y + objScale.y / 2;
+
                     // std::cout<<carPosition.y<<" "<<objPosition.y+objScale.y/2<<"\n";
                     bool collisionZ = carPosition.z + 3.0 >= objPosition.z &&
                                       objPosition.z + 3.0 >= carPosition.z;
@@ -104,7 +104,7 @@ namespace our
                     if (collisionX && collisionZ)
                     {
                         // collision logic
-                        if (oEntity->obstucaseType == "danger"||(oEntity->obstucaseType == "tree"&&collisionY))
+                        if (oEntity->obstucaseType == "danger" || (oEntity->obstucaseType == "tree" && collisionY))
                         {
 
                             // collision logic for danger
@@ -112,16 +112,17 @@ namespace our
                             player->health -= damage;
                             if (player->health <= 0)
                             {
-                              player->health = 0;
-                              healthScale.x = 0;
-                              //TODO: game over
-                              collision = true;
-                              
+                                player->health = 0;
+                                healthScale.x = 0;
+                                // TODO: game over
+                                player->state = 0;
+                                collision = true;
                             }
-                            else{
-                                healthScale.x -= float(damage)/100.0;
-                            }   
-                            //TODO: return the z to +10
+                            else
+                            {
+                                healthScale.x -= float(damage) / 100.0;
+                            }
+                            // TODO: return the z to +10
                             objPosition.z -= 20;
                             objPosition.y -= 20;
                         }
@@ -135,21 +136,30 @@ namespace our
                                 player->health = 100;
                                 healthScale.x = 1;
                             }
-                            else {
-                                healthScale.x += float(bouns)/100.0;;
+                            else
+                            {
+                                healthScale.x += float(bouns) / 100.0;
+                                ;
                             }
                             objPosition.z -= 20;
                             objPosition.y -= 20;
+                        }else if(oEntity->obstucaseType == "coins"){
+                            player->coins++;
+                            std::cout<<player->coins<<"\n";
+                            objPosition.z -= 20;
+                            objPosition.y -= 20;
                         }
-                        else if(oEntity->obstucaseType == "finish"){
-                            //TODO: game over
-                              collision = true;
+                        else if (oEntity->obstucaseType == "finish")
+                        {
+                            // TODO: game over
+                            finished = true;
                         }
-                        
+
                         break;
                     }
                 }
             }
+            return collision;
         }
     };
 }

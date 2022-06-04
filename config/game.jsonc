@@ -12,7 +12,7 @@
     "renderer": {
       "sky": "assets/textures/sky.jpg",
       "postprocess": "assets/shaders/postprocess/fog.frag",
-      
+
       "sky_top": [5, 5, 5],
       "sky_middle": [1.2, 1.2, 1.2],
       "sky_bottom": [1.6, 1.6, 1.6]
@@ -195,12 +195,12 @@
           },
           "tint": [1, 1, 1, 1],
           "albedo_texture": "tower",
-          "specular_texture":"tower",
-          "roughness_texture":"tower",
-          "emissive_texture":"black",
-          "alpha_texture":"alpha",
-          "ambientOcclusion_texture":"tower"
-        //   "sampler": "default"
+          "specular_texture": "tower",
+          "roughness_texture": "tower",
+          "emissive_texture": "black",
+          "alpha_texture": "alpha",
+          "ambientOcclusion_texture": "tower"
+          //   "sampler": "default"
         },
         "heart": {
           "type": "lighted",
@@ -215,12 +215,12 @@
           },
           "tint": [1, 1, 1, 1],
           "albedo_texture": "heart",
-          "specular_texture":"heart",
-          "roughness_texture":"heart",
-          "emissive_texture":"heart_emissive",
-          "alpha_texture":"alpha",
-          "ambientOcclusion_texture":"heart"
-        //   "sampler": "default"
+          "specular_texture": "heart",
+          "roughness_texture": "heart",
+          "emissive_texture": "heart_emissive",
+          "alpha_texture": "alpha",
+          "ambientOcclusion_texture": "heart"
+          //   "sampler": "default"
         },
 
         "moon": {
@@ -236,11 +236,11 @@
           },
           "tint": [1, 1, 1, 1],
           "albedo_texture": "moon",
-          "specular_texture":"moon",
-          "roughness_texture":"black",
-          "emissive_texture":"black",
-          "alpha_texture":"alpha",
-          "ambientOcclusion_texture":"moon"
+          "specular_texture": "moon",
+          "roughness_texture": "black",
+          "emissive_texture": "black",
+          "alpha_texture": "alpha",
+          "ambientOcclusion_texture": "moon"
         },
         "car": {
           "type": "lighted",
@@ -253,12 +253,12 @@
               "enabled": true
             }
           },
-          "albedo_texture":"car",
-          "specular_texture":"car",
-          "roughness_texture":"car",
-          "emissive_texture":"black",
-          "alpha_texture":"alpha",
-          "ambientOcclusion_texture":"car",
+          "albedo_texture": "car",
+          "specular_texture": "car",
+          "roughness_texture": "car",
+          "emissive_texture": "black",
+          "alpha_texture": "alpha",
+          "ambientOcclusion_texture": "car",
 
           "tint": [1, 1, 1, 1]
         },
@@ -289,40 +289,80 @@
             }
           },
           "tint": [1, 1, 1, 1],
-          "albedo_texture":"danger",
-          "specular_texture":"danger",
-          "roughness_texture":"danger",
-          "emissive_texture":"black",
-          "alpha_texture":"alpha",
-          "ambientOcclusion_texture":"danger"
+          "albedo_texture": "danger",
+          "specular_texture": "danger",
+          "roughness_texture": "danger",
+          "emissive_texture": "black",
+          "alpha_texture": "alpha",
+          "ambientOcclusion_texture": "danger"
         }
       }
     },
     "world": [
-        {
-            "rotation": [-45,-45,0],
-                "components": [
-                    {
-                        "type": "Light",
-                        "lightType": "directional",
-                        "diffuse": [1.9,1.9,1.9],
-                        "specular": [1.9,1.9,1.9 ]
-                    }
-                ]
-        },
-        {
-            "position":[0,10,40],
-            "rotation": [-45,-45,0],
-                "components": [
-                    {
-                        "type": "Light",
-                        "lightType": "spot",
-                        "diffuse": [0.9,0.9,0.9],
-                        "specular": [0.9,0.9,0.9 ],
-                        "cone_angles":[45,90]
-                    }
-                ]
-        },
+      // light
+
+      {
+        "rotation": [-45, -45, 0],
+        "components": [
+          {
+            "type": "Light",
+            "lightType": "directional",
+            "diffuse": [0.9, 0.9, 0.9],
+            "specular": [0.9, 0.9, 0.9]
+          }
+        ]
+      },
+
+      {
+        "position": [30, 10, 20],
+        "rotation": [0, 0, 180],
+        "scale": [1, 1, 1],
+        "components": [
+          {
+            "type": "Light",
+            "lightType": "point",
+            "diffuse": [1.9, 1.9, 1.9],
+            "specular": [1.9, 1.9, 1.9],
+            "cone_angles": [0, 360],
+            "attenuation": [0.01, 0.01, 0.01]
+          },
+          {
+            "type": "Movement"
+          }
+        ]
+      },
+      {
+        "position": [-30, 10, 20],
+        "rotation": [0, 0, 180],
+        "scale": [1, 1, 1],
+        "components": [
+          {
+            "type": "Light",
+            "lightType": "point",
+            "diffuse": [1.9, 1.9, 1.9],
+            "specular": [1.9, 1.9, 1.9],
+            "cone_angles": [0, 360],
+            "attenuation": [0.001, 0.001, 0.001]
+          },
+          {
+            "type": "Movement"
+          }
+        ]
+      },
+
+      // {
+      //   "position": [0, 5, -50],
+      //   "rotation": [-45, -45, 0],
+      //   "components": [
+      //     {
+      //       "type": "Light",
+      //       "lightType": "spot",
+      //       "diffuse": [0.9, 0.9, 0.9],
+      //       "specular": [0.9, 0.9, 0.9],
+      //       "cone_angles": [45, 90]
+      //     }
+      //   ]
+      // },
       //   {
       //     "position": [0, 7, 0],
       //     "rotation": [0, 180, 0],
@@ -519,28 +559,28 @@
         ]
       },
       // directional light
-      {
-        "position": [0, 20, 20],
-        // "rotation": [0, 0, 60],
-        "components": [
-          {
-            "type": "lighted",
-            "lightType": "spot",
-            "diffuse": [20, 20, 20],
-            "specular": [3.6, 3.4, 3.25]
-          }
-        ],
-        "albedo_texture": "albedo",
-        "specular_texture": "specular",
-        "roughness_texture": "roughness",
-        "emissive_texture": "emissive",
-        "alpha_texture": "alpha",
-        "ambientOcclusion_texture": "ambient"
-      },
+      // {
+      //   "position": [0, 20, 20],
+      //   // "rotation": [0, 0, 60],
+      //   "components": [
+      //     {
+      //       "type": "Light",
+      //       "lightType": "spot",
+      //       "diffuse": [20, 20, 20],
+      //       "specular": [3.6, 3.4, 3.25]
+      //     }
+      //   ],
+      //   "albedo_texture": "albedo",
+      //   "specular_texture": "specular",
+      //   "roughness_texture": "roughness",
+      //   "emissive_texture": "emissive",
+      //   "alpha_texture": "alpha",
+      //   "ambientOcclusion_texture": "ambient"
+      // },
 
       ///CAR
       {
-        "position": [-5, 1.5, -70],
+        "position": [-5, 1.5, 0],
         "rotation": [0, 180, 0],
         "scale": [2.5, 2.5, 2.5],
         "components": [
@@ -554,7 +594,7 @@
           },
           {
             "type": "Movement",
-            "linearVelocity": [0, 0, 20],
+            "linearVelocity": [0, 0, 10],
             "angularVelocity": [0, 0, 0]
           }
         ],
@@ -584,7 +624,8 @@
                   },
                   {
                     "type": "Player",
-                    "health": 100.0
+                    "health": 100.0,
+                    "totalCoins": 4
                   }
                 ]
               }
@@ -654,20 +695,6 @@
                 //"angularVelocity": [0, 90, 0]
               }
             ]
-          },
-          {
-            "position": [0, 10, 30],
-            "rotation": [0, 0, 0],
-            "scale": [2, 2, 2],
-            "components": [
-              {
-                "type": "Light",
-                "lightType": "spot",
-                "diffuse": [3.6, 3.4, 3.25],
-                "specular": [3.6, 3.4, 3.25],
-                "cone_angles": [45, 90]
-              }
-            ]
           }
         ]
       },
@@ -676,7 +703,7 @@
 
       //DANGER R1
       {
-        "position": [-5, 0, 40],
+        "position": [8, 0, 40],
         "rotation": [-90, 0, 0],
         "scale": [0.7, 0.7, 0.7],
         "components": [
@@ -698,7 +725,7 @@
         ]
       },
       {
-        "position": [-5, 0, 50],
+        "position": [5, 0, 60],
         "rotation": [-90, 0, 0],
         "scale": [0.7, 0.7, 0.7],
         "components": [
@@ -720,7 +747,7 @@
         ]
       },
       {
-        "position": [5, 0, 65],
+        "position": [5, 0, 75],
         "rotation": [-90, 0, 0],
         "scale": [0.7, 0.7, 0.7],
         "components": [
@@ -742,7 +769,7 @@
         ]
       },
       {
-        "position": [-5, 0, 70],
+        "position": [0, 0, 90],
         "rotation": [-90, 0, 0],
         "scale": [0.7, 0.7, 0.7],
         "components": [
@@ -765,7 +792,7 @@
         ]
       },
       {
-        "position": [5, 0, 110],
+        "position": [8, 0, 130],
         "rotation": [-90, 0, 0],
         "scale": [0.7, 0.7, 0.7],
         "components": [
@@ -788,31 +815,7 @@
         ]
       },
       {
-        "position": [7, 0, 160],
-        "rotation": [-90, 0, 0],
-        "scale": [0.7, 0.7, 0.7],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "cylinder",
-            "material": "danger",
-            "obstucaseType": "danger",
-            "effect": 25
-          },
-          {
-            "type": "Movement",
-            "angularVelocity": [0, 90, 0]
-          },
-          {
-            "type": "Collision",
-            "obstucaseType": "danger",
-            "effect": 25
-          }
-        ]
-      }
-      ,
-      {
-        "position": [5, 0, 250],
+        "position": [-8, 0, 130],
         "rotation": [-90, 0, 0],
         "scale": [0.7, 0.7, 0.7],
         "components": [
@@ -834,14 +837,171 @@
           }
         ]
       },
-     
- 
+      {
+        "position": [0, 0, 150],
+        "rotation": [-90, 0, 0],
+        "scale": [0.7, 0.7, 0.7],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cylinder",
+            "material": "danger",
+            "obstucaseType": "danger",
+            "effect": 25
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "danger",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [-8, 0, 180],
+        "rotation": [-90, 0, 0],
+        "scale": [0.7, 0.7, 0.7],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cylinder",
+            "material": "danger",
+            "obstucaseType": "danger",
+            "effect": 25
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "danger",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [5, 0, 220],
+        "rotation": [-90, 0, 0],
+        "scale": [0.7, 0.7, 0.7],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cylinder",
+            "material": "danger",
+            "obstucaseType": "danger",
+            "effect": 25
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "danger",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [-5, 0, 250],
+        "rotation": [-90, 0, 0],
+        "scale": [0.7, 0.7, 0.7],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cylinder",
+            "material": "danger",
+            "obstucaseType": "danger",
+            "effect": 25
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "danger",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [5, 0, 270],
+        "rotation": [-90, 0, 0],
+        "scale": [0.7, 0.7, 0.7],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cylinder",
+            "material": "danger",
+            "obstucaseType": "danger",
+            "effect": 25
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "danger",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [0, 0, 290],
+        "rotation": [-90, 0, 0],
+        "scale": [0.7, 0.7, 0.7],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cylinder",
+            "material": "danger",
+            "obstucaseType": "danger",
+            "effect": 25
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "danger",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [5, 0, 310],
+        "rotation": [-90, 0, 0],
+        "scale": [0.7, 0.7, 0.7],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cylinder",
+            "material": "danger",
+            "obstucaseType": "danger",
+            "effect": 25
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "danger",
+            "effect": 25
+          }
+        ]
+      },
 
- 
-    
       // heart
       {
-        "position": [5, 0, 80],
+        "position": [5, 0, 30],
         "rotation": [-90, 0, 0],
         "scale": [0.1, 0.1, 0.1],
         "components": [
@@ -862,7 +1022,175 @@
         ]
       },
       {
-        "position": [5, 0, 120],
+        "position": [-8, 0, 40],
+        "rotation": [-90, 0, 0],
+        "scale": [0.1, 0.1, 0.1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "heart",
+            "material": "heart"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "heart",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [-5, 0, 75],
+        "rotation": [-90, 0, 0],
+        "scale": [0.1, 0.1, 0.1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "heart",
+            "material": "heart"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "heart",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [-5, 0, 105],
+        "rotation": [-90, 0, 0],
+        "scale": [0.1, 0.1, 0.1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "heart",
+            "material": "heart"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "heart",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [8, 0, 180],
+        "rotation": [-90, 0, 0],
+        "scale": [0.1, 0.1, 0.1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "heart",
+            "material": "heart"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "heart",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [-5, 0, 210],
+        "rotation": [-90, 0, 0],
+        "scale": [0.1, 0.1, 0.1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "heart",
+            "material": "heart"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "heart",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [8, 0, 240],
+        "rotation": [-90, 0, 0],
+        "scale": [0.1, 0.1, 0.1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "heart",
+            "material": "heart"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "heart",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [5, 0, 260],
+        "rotation": [-90, 0, 0],
+        "scale": [0.1, 0.1, 0.1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "heart",
+            "material": "heart"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "heart",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [-5, 0, 280],
+        "rotation": [-90, 0, 0],
+        "scale": [0.1, 0.1, 0.1],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "heart",
+            "material": "heart"
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "heart",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [5, 0, 300],
         "rotation": [-90, 0, 0],
         "scale": [0.1, 0.1, 0.1],
         "components": [
@@ -884,7 +1212,7 @@
       },
 
       {
-        "position": [30, 0, 165],
+        "position": [-5, 0, 310],
         "rotation": [-90, 0, 0],
         "scale": [0.1, 0.1, 0.1],
         "components": [
@@ -904,88 +1232,7 @@
           }
         ]
       },
-      {
-        "position": [150, 0, 155],
-        "rotation": [-90, 0, 0],
-        "scale": [0.1, 0.1, 0.1],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "heart",
-            "material": "heart"
-          },
-          {
-            "type": "Movement",
-            "angularVelocity": [0, 90, 0]
-          }
-        ]
-      },
-      // r2
-      {
-        "position": [185, 0, 50],
-        "rotation": [-90, 0, 0],
-        "scale": [0.1, 0.1, 0.1],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "heart",
-            "material": "heart"
-          },
-          {
-            "type": "Movement",
-            "angularVelocity": [0, 90, 0]
-          }
-        ]
-      },
-      {
-        "position": [175, 0, -20],
-        "rotation": [-90, 0, 0],
-        "scale": [0.1, 0.1, 0.1],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "heart",
-            "material": "heart"
-          },
-          {
-            "type": "Movement",
-            "angularVelocity": [0, 90, 0]
-          }
-        ]
-      },
-      //R4
-      {
-        "position": [40, 0, -65],
-        "rotation": [-90, 0, 0],
-        "scale": [0.1, 0.1, 0.1],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "heart",
-            "material": "heart"
-          },
-          {
-            "type": "Movement",
-            "angularVelocity": [0, 90, 0]
-          }
-        ]
-      },
-      {
-        "position": [130, 0, -65],
-        "rotation": [-90, 0, 0],
-        "scale": [0.1, 0.1, 0.1],
-        "components": [
-          {
-            "type": "Mesh Renderer",
-            "mesh": "heart",
-            "material": "heart"
-          },
-          {
-            "type": "Movement",
-            "angularVelocity": [0, 90, 0]
-          }
-        ]
-      },
+
       // wood
       {
         "position": [0, 0, 10],
@@ -1004,9 +1251,94 @@
           }
         ]
       },
-
+      // wood
       {
-        "position": [0, 0, 140],
+        "position": [0, 0, 40],
+        "rotation": [0, 0, 0],
+        "scale": [6, 2, 0.5],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "tree"
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "tree",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [-6, 0, 90],
+        "rotation": [0, 0, 0],
+        "scale": [3, 2, 0.5],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "tree"
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "tree",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [6, 0, 90],
+        "rotation": [0, 0, 0],
+        "scale": [3, 2, 0.5],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "tree"
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "tree",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [-6, 0, 150],
+        "rotation": [0, 0, 0],
+        "scale": [3, 2, 0.5],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "tree"
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "tree",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [6, 0, 150],
+        "rotation": [0, 0, 0],
+        "scale": [3, 2, 0.5],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "tree"
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "tree",
+            "effect": 25
+          }
+        ]
+      },
+      {
+        "position": [0, 0, 130],
         "rotation": [0, 0, 0],
         "scale": [6, 2, 0.5],
         "components": [
@@ -1036,6 +1368,112 @@
             "type": "Collision",
             "obstucaseType": "tree",
             "effect": 25
+          }
+        ]
+      },
+
+      {
+        "position": [-3, 0, 240],
+        "rotation": [0, 0, 0],
+        "scale": [8, 2, 0.5],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "cube",
+            "material": "tree"
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "tree",
+            "effect": 25
+          }
+        ]
+      },
+
+      // coins
+
+      {
+        "position": [0, 0, 50],
+        "rotation": [-90, 0, 0],
+        "scale": [0.15, 0.15, 0.15],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "coin",
+            "material": "coin"
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "coins",
+            "effect": 0
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          }
+        ]
+      },
+
+      {
+        "position": [0, 0, 85],
+        "rotation": [-90, 0, 0],
+        "scale": [0.15, 0.15, 0.15],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "coin",
+            "material": "coin"
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "coins",
+            "effect": 0
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          }
+        ]
+      },
+      {
+        "position": [0, 0, 135],
+        "rotation": [-90, 0, 0],
+        "scale": [0.15, 0.15, 0.15],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "coin",
+            "material": "coin"
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "coins",
+            "effect": 0
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
+          }
+        ]
+      },
+      {
+        "position": [0, 0, 195],
+        "rotation": [-90, 0, 0],
+        "scale": [0.15, 0.15, 0.15],
+        "components": [
+          {
+            "type": "Mesh Renderer",
+            "mesh": "coin",
+            "material": "coin"
+          },
+          {
+            "type": "Collision",
+            "obstucaseType": "coins",
+            "effect": 0
+          },
+          {
+            "type": "Movement",
+            "angularVelocity": [0, 90, 0]
           }
         ]
       },
@@ -1501,7 +1939,7 @@
         ]
       },
       {
-        "position": [0,0 , 50],
+        "position": [0, 0, 50],
         "rotation": [-90, 0, 0],
         "scale": [0.15, 0.15, 0.15],
         "components": [

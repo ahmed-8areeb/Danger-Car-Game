@@ -76,11 +76,11 @@ namespace our
                       up = glm::vec3(matrix * glm::vec4(0, 1, 0, 0)), 
                       right = glm::vec3(matrix * glm::vec4(1, 0, 0, 0));
 
-       
-            
+            // std::cout<<"pos: "<<position.z<<"\n";
+
             // A & D moves the player left or right 
-            if(app->getKeyboard().isPressed(GLFW_KEY_D) && position.x>-10.0f) position += right * (deltaTime *2);
-            if(app->getKeyboard().isPressed(GLFW_KEY_A)  && position.x<10.0f) position -= right * (deltaTime * 2);
+            if(app->getKeyboard().isPressed(GLFW_KEY_D) && position.x>-10.0f) position += right * (deltaTime *4);
+            if(app->getKeyboard().isPressed(GLFW_KEY_A)  && position.x<10.0f) position -= right * (deltaTime * 4);
             if(app->getKeyboard().isPressed(GLFW_KEY_X)) rotation.y += glm::radians(1.0f);
 
             if(jumped){
@@ -96,9 +96,6 @@ namespace our
             }
         
         }
-
-       
-
     };
 
 }

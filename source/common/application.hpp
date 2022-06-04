@@ -31,6 +31,7 @@ namespace our {
         Application* application;
         friend Application;
     public:
+       
         virtual void onInitialize(){}                   // Called once before the game loop.
         virtual void onImmediateGui(){}                 // Called every frame to draw the Immediate GUI (if any).
         virtual void onDraw(double deltaTime){}         // Called every frame in the game loop passing the time taken to draw the frame "Delta time".
@@ -71,7 +72,7 @@ namespace our {
         virtual void setupCallbacks();                              // Sets-up the window callback functions from GLFW to our (Mouse/Keyboard) classes.
 
     public:
-
+         int state=5;
         // Create an application with following configuration
         Application(const nlohmann::json& app_config) : app_config(app_config) {}
         // On destruction, delete all the states

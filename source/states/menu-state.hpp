@@ -21,6 +21,7 @@ class MenuState : public our::State
 
   void onImmediateGui() override
   {
+    
     int score = 0;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ImGui::Begin("Menu State");
@@ -32,7 +33,7 @@ class MenuState : public our::State
     ImGui::Text("Welcome to our game");
     ImGui::PopStyleColor();
      ImGui::Text(" ");
-    if (ImGui::Button("Start"))
+    if (ImGui::Button("Start") )
     {
       this->getApp()->changeState("main");
     }

@@ -89,6 +89,7 @@ set(COMMON_SOURCES
 
         source/common/systems/forward-renderer.hpp
         source/common/systems/carController.hpp
+        source/common/systems/gameController.hpp
         source/common/systems/collisionController.hpp
         source/common/systems/forward-renderer.cpp
         source/common/systems/free-camera-controller.hpp

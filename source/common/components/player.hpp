@@ -13,12 +13,17 @@ namespace our
     {
     public:
         float health;
+        int coins = 0;
+        int totalCoins ;
+        int state=4;
         // glm::vec3 angularVelocity;
         // The ID of this component type is "Camera"
         static std::string getID() { return "Player"; }
 
         void deserialize(const nlohmann::json &data) override;
-
+        int getPlayerState(){
+            return state;
+        }
         // Creates and returns the camera view matrix
         glm::mat4 getViewMatrix() const;
     };

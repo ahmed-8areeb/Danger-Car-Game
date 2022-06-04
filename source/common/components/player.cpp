@@ -11,6 +11,7 @@ namespace our
          if (!data.is_object())
             return;
         health = data.value("health", health);
+        totalCoins = data.value("totalCoins", totalCoins);
 
     }
 
