@@ -9,7 +9,7 @@
 #include <asset-loader.hpp>
 #include "imgui.h"
 
-// This state shows how to use the ECS framework and deserialization.
+
 class MenuState : public our::State
 {
 
@@ -18,14 +18,17 @@ class MenuState : public our::State
   our::FreeCameraControllerSystem cameraController;
   our::MovementSystem movementSystem;
   
-
+  /**
+   * @brief create the menu state window and draw the menu
+   * 
+   */
   void onImmediateGui() override
   {
     
     int score = 0;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ImGui::Begin("Menu State");
-      ImGui::SetWindowFontScale(3.0f);
+    ImGui::SetWindowFontScale(3.0f);
     ImGui::SetWindowSize(ImVec2((float)900, (float)500));
     // ImGui::Text("Welcome to our game");
     // ImGui::SameLine();
@@ -33,7 +36,7 @@ class MenuState : public our::State
     ImGui::Text(" ");
     ImGui::Text("Welcome to our game");
     ImGui::PopStyleColor();
-     ImGui::Text("you should collect at least half\n the avaliable coins");
+    ImGui::Text("you should collect at least half\n the avaliable coins");
     if (ImGui::Button("Start") )
     {
       this->getApp()->changeState("main");

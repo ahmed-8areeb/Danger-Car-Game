@@ -22,7 +22,7 @@ namespace our
     public:
         bool jumped = false;
         double seconds=1;
-        double jumpTime = 0.5;
+        double jumpTime = seconds/2.0;
         // When a state enters, it should call this function and give it the pointer to the application
         void enter(Application* app){
             this->app = app;
@@ -33,13 +33,7 @@ namespace our
            
             // First of all, we search for an entity containing both a CameraComponent and a FreeCameraControllerComponent
             // As soon as we find one, we break
-            CarComponent* car = nullptr;
-            // FreeCameraControllerComponent *controller = nullptr;
-            for(auto entity : world->getEntities()){
-                car = entity->getComponent<CarComponent>();
-                // controller = entity->getComponent<FreeCameraControllerComponent>();
-                if(car) break;
-            }
+            CarComponent* car = world->getCar();
             // If there is no entity with both a CameraComponent and a FreeCameraControllerComponent, we can do nothing so we return
             if(!(car)) return;
             // Get the entity that we found via getOwner of camera (we could use controller->getOwner())
@@ -68,7 +62,7 @@ namespace our
             if(app->getKeyboard().isPressed(GLFW_KEY_A)  && position.x<10.0f) position -= right * (deltaTime * 4);
             if(app->getKeyboard().isPressed(GLFW_KEY_X)) rotation.y += glm::radians(1.0f);
 
-            
+            // jumping 
             if(jumped){
                 seconds-=deltaTime;
                 if(seconds<=0) jumped=false;
@@ -81,9 +75,10 @@ namespace our
                 jumped = true;
                 seconds = 1;
             }
-
+            // check if car reaches the finsh line
             finished = checkEnd(world,position.z);
         }
+        
         bool checkEnd(World* world,float posZ){
              for (auto entity : world->getEntities())
                 if (auto oEntity = entity->getComponent<CollisionComponent>(); oEntity)

@@ -9,6 +9,8 @@
 #include <systems/gameController.hpp>
 #include <systems/collisionController.hpp>
 #include <../common/components/collision.hpp>
+#include <../common/components/player.hpp>
+#include <../common/components/car.hpp>
 #include <../common/components/coinBag.hpp>
 #include <systems/movement.hpp>
 #include <asset-loader.hpp>
@@ -63,6 +65,21 @@ class Playstate : public our::State
         for (auto entity : world.getEntities())
             if(entity->getComponent<our::CoinComponent>())
                 coinBags.push_back(entity);
+
+        // set the player
+         for (auto entity : world.getEntities())
+            if(entity->getComponent<our::PlayerComponent>()){
+                world.setPlayer(entity->getComponent<our::PlayerComponent>());
+                break;
+            }
+
+         // set the car
+         for (auto entity : world.getEntities())
+            if(entity->getComponent<our::CarComponent>()){
+                world.setCar(entity->getComponent<our::CarComponent>());
+                break;
+            }
+        
     }
 
     void onDraw(double deltaTime) override

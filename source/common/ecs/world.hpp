@@ -2,6 +2,8 @@
 
 #include <unordered_set>
 #include "entity.hpp"
+#include "../components/player.hpp"
+#include "../components/car.hpp"
 
 namespace our {
 
@@ -9,9 +11,11 @@ namespace our {
     class World {
         std::unordered_set<Entity*> entities; // These are the entities held by this world
         std::unordered_set<Entity*> markedForRemoval; // These are the entities that are awaiting to be deleted
-                                                      // when deleteMarkedEntities is called
+                                                   // when deleteMarkedEntities is called
+        PlayerComponent *player = nullptr;
+        CarComponent *car = nullptr;
     public:
-
+        
         World() = default;
 
         // This will deserialize a json array of entities and add the new entities to the current world
@@ -59,6 +63,24 @@ namespace our {
             }
             entities.clear();
             markedForRemoval.clear();
+        }
+        // setter for the player
+        void setPlayer(PlayerComponent *player){
+            this->player = player;
+        }
+        // setter for the car
+        void setCar(CarComponent *car){
+            this->car = car;
+        }
+
+        // getter for the player
+        PlayerComponent* getPlayer(){
+            return player;
+        }
+
+        // getter for the car
+        CarComponent* getCar(){
+            return car;
         }
 
         //Since the world owns all of its entities, they should be deleted alongside it.

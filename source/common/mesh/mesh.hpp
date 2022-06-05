@@ -35,7 +35,7 @@ namespace our
             //  remember to store the number of elements in "elementCount" since you will need it for drawing
             minX = 10000000.0;
             maxX = -10000000.0;
-
+            // get the minium x and max x of the mesh
             for (auto v : vertices)
             {
                 if (v.position.x < minX)

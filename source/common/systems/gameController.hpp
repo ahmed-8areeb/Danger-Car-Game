@@ -16,7 +16,7 @@
 namespace our
 {
 
-   
+   // this class is responsible for game controller 
     class GameControllerSystem
     {
         Application *app; // The application in which the state runs
@@ -31,13 +31,7 @@ namespace our
         }
 
         bool checkWin(World *world){
-            PlayerComponent *player = nullptr;
-            for (auto entity : world->getEntities())
-            {
-                player = entity->getComponent<PlayerComponent>();
-                if (player)
-                    break;
-            }
+            PlayerComponent *player = world->getPlayer();
             // If there is no entity of a car we can do nothing so we return
             if (!(player))
                 return false;
@@ -56,13 +50,7 @@ namespace our
             // First of all, we search for an entity containing both a CameraComponent and a FreeCameraControllerComponent
             // As soon as we find one, we break
 
-            PlayerComponent *player = nullptr;
-            for (auto entity : world->getEntities())
-            {
-                player = entity->getComponent<PlayerComponent>();
-                if (player)
-                    break;
-            }
+            PlayerComponent *player = world->getPlayer();
             // If there is no entity of a car we can do nothing so we return
             if (!(player))
                 return false;
@@ -72,31 +60,23 @@ namespace our
                 player->state = 0;
                 return false;
             }
+
+            // decreae the health of the player as time passes 
             if(isDecreasing){
                 time-=deltaTime;
                 if(time <= 0)
                     isDecreasing=false;
             }else{
-                std::cout<<"here\n";
                 player->health -= 0.1;
                 healthScale.x -= 0.1/100;
-                time = 2;
+                time = 2;           // decrease the health of the player every two seconds
                 isDecreasing = true;
             }
             return true;
         }
 
         int getPlayerStatus(World *world){
-            PlayerComponent *player = nullptr;
-            for (auto entity : world->getEntities())
-            {
-                player = entity->getComponent<PlayerComponent>();
-                if (player)
-                    break;
-            }
-            if(!player) std::cout<<"kaaaaaaaaaak : "<< player->health<<"\n";
-             std::cout<<"game state : "<< player->health<<"\n";
-            std::cout<<"game state : "<< player->state<<"\n";
+            PlayerComponent *player = world->getPlayer();
             return player->state;
         }
     };

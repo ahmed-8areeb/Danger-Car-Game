@@ -29,21 +29,24 @@ namespace our
             this->app = app;
         }
 
-        // this function handle the collision of the car with the obstacles
+        /**
+         * @brief this function handle the collision of the car with the obstacles
+         * 
+         * @param world 
+         * @param finished 
+         * @param collisionMarker 
+         * @param coinBags 
+         * @return true the player died and the game is over
+         * @return false the player did not die and the game is not finished
+         */
         bool checkCollision(World *world, bool &finished, std::vector<bool> &collisionMarker, std::vector<Entity *> &coinBags)
         {
-            
             bool Died = false;
-            PlayerComponent *player = nullptr;
-            for (auto entity : world->getEntities())
-            {
-                player = entity->getComponent<PlayerComponent>();
-                if (player)
-                    break;
-            }
-            // If there is no entity of a car we can do nothing so we return
+
+            PlayerComponent *player = world->getPlayer();
             if (!(player))
                 return true;
+            
             //get player entity
             Entity *playerEntity = player->getOwner();
             // get player health scale
@@ -52,13 +55,7 @@ namespace our
             std::vector<Entity *> obstacles;
 
             // get car component
-            CarComponent *car = nullptr;
-            for (auto entity : world->getEntities())
-            {
-                car = entity->getComponent<CarComponent>();
-                if (car)
-                    break;
-            }
+            CarComponent *car = world->getCar();
             // If there is no entity of a car we can do nothing so we return
             if (!(car))
                 return true;
@@ -90,7 +87,10 @@ namespace our
                     float minObsX = objPosition.x + objEntity->getComponent<MeshRendererComponent>()->mesh->minX;
                     float maxObsX = objPosition.x + objEntity->getComponent<MeshRendererComponent>()->mesh->maxX;
 
-                    //  AABB Collision Detection
+
+
+                    //############ AABB Collision Detection#########################
+
                     // bool collisionX = carPosition.x + (maxCarX - minCarX)*carScale.x/2 >= objPosition.x &&
                     //                   objPosition.x + (maxObsX - minObsX)*objScale.x/2 >= carPosition.x;
 
@@ -105,6 +105,7 @@ namespace our
                     // std::cout<<carPosition.y<<" "<<objPosition.y+objScale.y/2<<"\n";
                     bool collisionZ = carPosition.z + 2 * carScale.z >= objPosition.z &&
                                       objPosition.z + 3.0 >= carPosition.z;
+
 
                     // collision only if on both axes
                     if (collisionX && collisionZ)

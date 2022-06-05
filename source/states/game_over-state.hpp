@@ -30,6 +30,10 @@ class GameOverState : public our::State
   
   void onImmediateGui() override
   {
+    // set the state of the player
+    // 0 => game over as car damaged
+    // 1 => game over as the player didn't collect at least half of the coins
+    // 2 => the player wins as he collected all the coins
     int state = getApp()->state;
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -55,8 +59,6 @@ class GameOverState : public our::State
        ImGui::Text("you collect all the coins");
        ImGui::PopStyleColor();
     }
- 
-    
     ImGui::Text(" ");
     if (ImGui::Button("exit game")||getApp()->getKeyboard().isPressed(GLFW_KEY_ENTER))
     {

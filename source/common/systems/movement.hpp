@@ -20,20 +20,21 @@ namespace our
     {
     public:
         float getHealth(World *world){
-            PlayerComponent *player = nullptr;
-            for (auto entity : world->getEntities())
-            {
-                player = entity->getComponent<PlayerComponent>();
-                if (player)
-                    break;
-            }
-            
+            PlayerComponent *player = world->getPlayer();
             return player->health/100;
         }
+
         // This should be called every frame to update all entities containing a MovementComponent.
+        /**
+         * @brief  This should be called every frame to update all entities containing a MovementComponent.
+         * 
+         * @param world our world
+         * @param deltaTime the time between each 2 frames
+         * 
+         * @return void 
+         */
         void update(World *world, float deltaTime)
-        {
-            
+        {   
             // For each entity in the world
             for (auto entity : world->getEntities())
             {
@@ -41,8 +42,6 @@ namespace our
                 MovementComponent *movement = entity->getComponent<MovementComponent>();
 
                 CarComponent *car = entity->getComponent<CarComponent>();
-               
-
                 // If the movement component exists
                 if (movement)
                 {
@@ -50,7 +49,6 @@ namespace our
                     {
                          Entity* cEntity = car->getOwner();
                          cEntity->localTransform.position += deltaTime * movement->linearVelocity*glm::max(getHealth(world),0.65f);
-                       
                     }
                     else
                     {
