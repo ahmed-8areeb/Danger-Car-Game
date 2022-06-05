@@ -16,13 +16,11 @@
 namespace our
 {
 
-    // The free camera controller system is responsible for moving every entity which contains a FreeCameraControllerComponent.
-    // This system is added as a slightly complex example for how use the ECS framework to implement logic.
-    // For more information, see "common/components/free-camera-controller.hpp"
+    // this file responsible for collision detection and handling between cars and other objects 
     class CollisionControllerSystem
     {
         Application *app; // The application in which the state runs
-        // bool mouse_locked = false; // Is the mouse locked
+        
 
     public:
         // When a state enters, it should call this function and give it the pointer to the application
@@ -31,12 +29,11 @@ namespace our
             this->app = app;
         }
 
-        // This should be called every frame to update all entities containing a FreeCameraControllerComponent
+        // this function handle the collision of the car with the obstacles
         bool checkCollision(World *world, bool &finished, std::vector<bool> &collisionMarker, std::vector<Entity *> &coinBags)
         {
-            // First of all, we search for an entity containing both a CameraComponent and a FreeCameraControllerComponent
-            // As soon as we find one, we break
-            bool collision = false;
+            
+            bool Died = false;
             PlayerComponent *player = nullptr;
             for (auto entity : world->getEntities())
             {
@@ -47,10 +44,13 @@ namespace our
             // If there is no entity of a car we can do nothing so we return
             if (!(player))
                 return true;
+            //get player entity
             Entity *playerEntity = player->getOwner();
+            // get player health scale
             glm::vec3 &healthScale = playerEntity->localTransform.scale;
 
             std::vector<Entity *> obstacles;
+
             // get car component
             CarComponent *car = nullptr;
             for (auto entity : world->getEntities())
@@ -62,18 +62,16 @@ namespace our
             // If there is no entity of a car we can do nothing so we return
             if (!(car))
                 return true;
-
             Entity *carEntity = car->getOwner();
 
             // We get a reference to the entity's position and rotation
             glm::vec3 &carPosition = carEntity->localTransform.position;
             glm::vec3 &carRotation = carEntity->localTransform.rotation;
             glm::vec3 &carScale = carEntity->localTransform.scale;
-
+            // get the minium and maxium dimesions of car
             float minCarX = carPosition.x + carEntity->getComponent<MeshRendererComponent>()->mesh->minX;
             float maxCarX = carPosition.x + carEntity->getComponent<MeshRendererComponent>()->mesh->maxX;
 
-            // std::cout<<carPosition.x<<" "<<minCarX<<"\n";
             int i = 0;
             for (auto entity : world->getEntities())
             {
@@ -111,28 +109,33 @@ namespace our
                     // collision only if on both axes
                     if (collisionX && collisionZ)
                     {
-                        // collision logic
+                        // damage the player health if the collision is danger or tree in the game
                         if (oEntity->obstucaseType == "danger" || (oEntity->obstucaseType == "tree" && collisionY))
                         {
 
-                            // collision logic for danger
+                            // get damage of the obstacle
                             int damage = oEntity->effect;
+                            // decrease the health of the player
                             player->health -= damage;
+                            // check if the player is dead
                             if (player->health <= 0)
                             {
                                 player->health = 0;
                                 healthScale.x = 0;
                                 // TODO: game over
                                 player->state = 0;
-                                collision = true;
+                                Died = true;
                             }
                             else
                             {
                                 healthScale.x -= float(damage) / 100.0;
                             }
+
                             // objPosition.z -= 20;
                             // objPosition.y -= 20;
+                            // mark the component as collision done
                             collisionMarker[i] = true;
+                            // avoid to draw  the obstacle
                             objEntity->canDraw = false;
                         }
                         else if (oEntity->obstucaseType == "heart")
@@ -140,7 +143,7 @@ namespace our
                             // collision logic for heart
                             int bouns = oEntity->effect;
                             player->health += bouns;
-                            if (player->health > 100)
+                            if (player->health > 100) // if the health is greater than 100, set it to 100
                             {
                                 player->health = 100;
                                 healthScale.x = 1;
@@ -154,24 +157,23 @@ namespace our
                             collisionMarker[i] = true;
                             objEntity->canDraw = false;
                         }
-                        else if (oEntity->obstucaseType == "coins")
+                        else if (oEntity->obstucaseType == "coins") 
                         {
                             player->coins++;
                             // objPosition.z -= 20;
                             // objPosition.y -= 20;
                             collisionMarker[i] = true;
-                            if (coinBags.size() > 0)
+                            if (coinBags.size() > 0)  // if there is coins remains
                             {
-                                Entity *bag = coinBags.back();
-                                bag->canDraw = false;
+                                Entity *bag = coinBags.back(); // get the last coin bag
+                                bag->canDraw = false;   
                                 coinBags.pop_back();
                             }
                             objEntity->canDraw = false;
                         }
                         else if (oEntity->obstucaseType == "finish")
                         {
-                            // TODO: game over
-                            finished = true;
+                            finished = true; // set the game as finished
                         }
 
                         break;
@@ -179,7 +181,7 @@ namespace our
                     i++;
                 }
             }
-            return collision;
+            return Died;
         }
     };
 }

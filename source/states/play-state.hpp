@@ -57,6 +57,7 @@ class Playstate : public our::State
         for (auto entity : world.getEntities())
             if(entity->getComponent<our::CollisionComponent>())
                 s++;
+                
         collisionMarker.resize(s,0);
 
         for (auto entity : world.getEntities())

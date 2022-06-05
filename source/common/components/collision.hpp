@@ -7,15 +7,13 @@
 namespace our
 {
 
-    // This component denotes that any renderer should draw the scene relative to this camera.
-    // We do not define the eye, center or up here since they can be extracted from the entity local to world matrix
+    // this is a component that handle the collision of the entity
     class CollisionComponent : public Component
     {
     public:
         std::string obstucaseType;
         int effect;
-        // glm::vec3 angularVelocity;
-        // The ID of this component type is "Camera"
+        
         static std::string getID() { return "Collision"; }
 
         void deserialize(const nlohmann::json &data) override;

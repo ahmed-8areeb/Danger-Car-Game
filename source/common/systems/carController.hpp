@@ -15,12 +15,10 @@
 namespace our
 {
 
-    // The free camera controller system is responsible for moving every entity which contains a FreeCameraControllerComponent.
-    // This system is added as a slightly complex example for how use the ECS framework to implement logic. 
-    // For more information, see "common/components/free-camera-controller.hpp"
+    // this file is responsible for car controller 
     class CarControllerSystem {
         Application* app; // The application in which the state runs
-        //bool mouse_locked = false; // Is the mouse locked
+
     public:
         bool jumped = false;
         double seconds=1;
@@ -53,17 +51,6 @@ namespace our
             glm::vec3& rotation = entity->localTransform.rotation;
             glm::vec3& scale = entity->localTransform.scale;
             // glm::vec3 velocity =entity->localTransform.velocity;
-
-            // If the left mouse button is pressed, we get the change in the mouse location
-            // and use it to update the camera rotation
-         
-
-            // We prevent the pitch from exceeding a certain angle from the XZ plane to prevent gimbal locks
-            if(rotation.x < -glm::half_pi<float>() * 0.99f) rotation.x = -glm::half_pi<float>() * 0.99f;
-            if(rotation.x >  glm::half_pi<float>() * 0.99f) rotation.x  = glm::half_pi<float>() * 0.99f;
-            // This is not necessary, but whenever the rotation goes outside the 0 to 2*PI range, we wrap it back inside.
-            // This could prevent floating point error if the player rotates in single direction for an extremely long time. 
-            rotation.y = glm::wrapAngle(rotation.y);
 
           
 
