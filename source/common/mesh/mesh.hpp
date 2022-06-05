@@ -21,6 +21,7 @@ namespace our
         GLsizei elementCount;
 
     public:
+        float minX, maxX;
         // The constructor takes two vectors:
         // - vertices which contain the vertex data.
         // - elements which contain the indices of the vertices out of which each rectangle will be constructed.
@@ -32,7 +33,16 @@ namespace our
         {
             // TODO: (Req 1) Write this function
             //  remember to store the number of elements in "elementCount" since you will need it for drawing
+            minX = 10000000.0;
+            maxX = -10000000.0;
 
+            for (auto v : vertices)
+            {
+                if (v.position.x < minX)
+                    minX = v.position.x;
+                if (v.position.x > maxX)
+                    maxX = v.position.x;
+            }
             // for drawing
             //  locations, use the constants:  ATTRIB_LOC_POSITION, ATTRIB_LOC_COLOR, etc
             elementCount = (GLsizei)elements.size();
@@ -55,7 +65,7 @@ namespace our
             glVertexAttribPointer(ATTRIB_LOC_POSITION, 3, GL_FLOAT, false, sizeof(Vertex), (void *)0);
 
             // size = 4, since color in vertex is of type vec4
-            // here we normalize because color 0 to 255 we need to be 0 to 1 
+            // here we normalize because color 0 to 255 we need to be 0 to 1
             glEnableVertexAttribArray(ATTRIB_LOC_COLOR);
             glVertexAttribPointer(ATTRIB_LOC_COLOR, 4, GL_UNSIGNED_BYTE, true, sizeof(Vertex), (void *)offsetof(Vertex, color));
 
@@ -67,7 +77,6 @@ namespace our
             glEnableVertexAttribArray(ATTRIB_LOC_NORMAL);
             glVertexAttribPointer(ATTRIB_LOC_NORMAL, 3, GL_FLOAT, false, sizeof(Vertex), (void *)offsetof(Vertex, normal));
             // For the attribute locations, use the constants defined above: ATTRIB_LOC_POSITION, ATTRIB_LOC_COLOR, etc
-
 
             glGenBuffers(1, &EBO);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);

@@ -77,6 +77,7 @@ namespace our
                 if(time <= 0)
                     isDecreasing=false;
             }else{
+                std::cout<<"here\n";
                 player->health -= 0.1;
                 healthScale.x -= 0.1/100;
                 time = 2;

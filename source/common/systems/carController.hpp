@@ -5,6 +5,7 @@
 
 #include "../application.hpp"
 
+#include "../components/collision.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/trigonometric.hpp>
@@ -30,7 +31,7 @@ namespace our
         }
 
         // This should be called every frame to update all entities containing a FreeCameraControllerComponent 
-        void update(World* world, float deltaTime) {
+        void update(World* world, float deltaTime,bool &finished) {
            
             // First of all, we search for an entity containing both a CameraComponent and a FreeCameraControllerComponent
             // As soon as we find one, we break
@@ -64,10 +65,7 @@ namespace our
             // This could prevent floating point error if the player rotates in single direction for an extremely long time. 
             rotation.y = glm::wrapAngle(rotation.y);
 
-            // We update the camera fov based on the mouse wheel scrolling amount
-            // float fov = camera->fovY + app->getMouse().getScrollOffset().y * controller->fovSensitivity;
-            // fov = glm::clamp(fov, glm::pi<float>() * 0.01f, glm::pi<float>() * 0.99f); // We keep the fov in the range 0.01*PI to 0.99*PI
-            // camera->fovY = fov;
+          
 
             // We get the camera model matrix (relative to its parent) to compute the front, up and right directions
             glm::mat4 matrix = entity->localTransform.toMat4();
@@ -83,18 +81,33 @@ namespace our
             if(app->getKeyboard().isPressed(GLFW_KEY_A)  && position.x<10.0f) position -= right * (deltaTime * 4);
             if(app->getKeyboard().isPressed(GLFW_KEY_X)) rotation.y += glm::radians(1.0f);
 
+            
             if(jumped){
                 seconds-=deltaTime;
                 if(seconds<=0) jumped=false;
                 if(jumpTime <= seconds)
                     position.y += 0.1;
                 else position.y -= 0.1;
+                position.z += 0.05;  
             }else if(app->getKeyboard().isPressed(GLFW_KEY_W)){
                 position.y = 1.5;
                 jumped = true;
                 seconds = 1;
             }
-        
+
+            finished = checkEnd(world,position.z);
+        }
+        bool checkEnd(World* world,float posZ){
+             for (auto entity : world->getEntities())
+                if (auto oEntity = entity->getComponent<CollisionComponent>(); oEntity)
+                    if(oEntity->obstucaseType=="finish"){
+                        Entity *obsEntity = oEntity->getOwner();
+                        if(posZ >= obsEntity->localTransform.position.z)
+                        {
+                            return true;
+                        }
+                    }
+            return false;
         }
     };
 

@@ -1,5 +1,5 @@
 {
-  "start-scene": "menu",
+  "start-scene": "main",
   "window": {
     "title": "Default Game Window",
     "size": {
@@ -12,12 +12,10 @@
     "renderer": {
       "sky": "assets/textures/sky.jpg",
       "postprocess": "assets/shaders/postprocess/fog.frag",
-
       "sky_top": [5, 5, 5],
       "sky_middle": [1.2, 1.2, 1.2],
       "sky_bottom": [1.6, 1.6, 1.6]
     },
-
     "assets": {
       "shaders": {
         "tinted": {
@@ -33,7 +31,6 @@
           "fs": "assets/shaders/light.frag"
         }
       },
-
       "textures": {
         "moon": "assets/textures/moon.jpg",
         "road": "assets/textures/road1.jpg",
@@ -46,6 +43,7 @@
         "specular": "assets/textures/specular.jpg",
         "ambient": "assets/textures/ambient_occlusion.jpg",
         "heart": "assets/textures/red.jpg",
+        "red": "assets/textures/red.jpg",
         "car": "assets/textures/car.jpg",
         "tyre": "assets/textures/tyre.jpg",
         "danger": "assets/textures/danger2.jpeg",
@@ -121,6 +119,22 @@
           "texture": "tree",
           "sampler": "default"
         },
+        
+        "red": {
+          "type": "textured",
+          "shader": "textured",
+          "pipelineState": {
+            "faceCulling": {
+              "enabled": false
+            },
+            "depthTesting": {
+              "enabled": true
+            }
+          },
+          "tint": [1, 1, 1, 1],
+          "texture": "red",
+          "sampler": "default"
+        },
         "end": {
           "type": "textured",
           "shader": "textured",
@@ -188,7 +202,6 @@
             "faceCulling": {
               "enabled": false
             },
-
             "depthTesting": {
               "enabled": true
             }
@@ -222,7 +235,6 @@
           "ambientOcclusion_texture": "heart"
           //   "sampler": "default"
         },
-
         "moon": {
           "type": "lighted",
           "shader": "lighted",
@@ -259,7 +271,6 @@
           "emissive_texture": "black",
           "alpha_texture": "alpha",
           "ambientOcclusion_texture": "car",
-
           "tint": [1, 1, 1, 1]
         },
         "tyre": {
@@ -300,19 +311,17 @@
     },
     "world": [
       // light
-
       {
         "rotation": [-45, -45, 0],
         "components": [
           {
             "type": "Light",
             "lightType": "directional",
-            "diffuse": [0.9, 0.9, 0.9],
-            "specular": [0.9, 0.9, 0.9]
+            "diffuse": [1.0, 1.0, 1.0],
+            "specular": [1.0, 1.0, 1.0]
           }
         ]
       },
-
       {
         "position": [30, 10, 20],
         "rotation": [0, 0, 180],
@@ -321,10 +330,10 @@
           {
             "type": "Light",
             "lightType": "point",
-            "diffuse": [1.9, 1.9, 1.9],
-            "specular": [1.9, 1.9, 1.9],
+            "diffuse": [0.8, 0.8, 0.8],
+            "specular": [0.8, 0.8, 0.8],
             "cone_angles": [0, 360],
-            "attenuation": [0.01, 0.01, 0.01]
+            "attenuation": [0.001, 0.001, 0.001]
           },
           {
             "type": "Movement"
@@ -339,8 +348,8 @@
           {
             "type": "Light",
             "lightType": "point",
-            "diffuse": [1.9, 1.9, 1.9],
-            "specular": [1.9, 1.9, 1.9],
+            "diffuse": [0.8, 0.8, 0.8],
+            "specular": [0.8, 0.8, 0.8],
             "cone_angles": [0, 360],
             "attenuation": [0.001, 0.001, 0.001]
           },
@@ -349,7 +358,6 @@
           }
         ]
       },
-
       // {
       //   "position": [0, 5, -50],
       //   "rotation": [-45, -45, 0],
@@ -438,9 +446,7 @@
           }
         ]
       },
-
       //grass
-
       // left grass
       {
         "position": [20, 0, 0],
@@ -490,7 +496,6 @@
           }
         ]
       },
-
       // right grass
       {
         "position": [-20, 0, 0],
@@ -540,7 +545,6 @@
           }
         ]
       },
-
       // Moon
       {
         "position": [-10, 20, 140],
@@ -558,34 +562,16 @@
           }
         ]
       },
-      // directional light
-      // {
-      //   "position": [0, 20, 20],
-      //   // "rotation": [0, 0, 60],
-      //   "components": [
-      //     {
-      //       "type": "Light",
-      //       "lightType": "spot",
-      //       "diffuse": [20, 20, 20],
-      //       "specular": [3.6, 3.4, 3.25]
-      //     }
-      //   ],
-      //   "albedo_texture": "albedo",
-      //   "specular_texture": "specular",
-      //   "roughness_texture": "roughness",
-      //   "emissive_texture": "emissive",
-      //   "alpha_texture": "alpha",
-      //   "ambientOcclusion_texture": "ambient"
-      // },
-
+      
       ///CAR
       {
-        "position": [-5, 1.5, 0],
+        "position": [-5, 1.5, -50],
         "rotation": [0, 180, 0],
         "scale": [2.5, 2.5, 2.5],
         "components": [
           {
-            "type": "Car"
+            "type": "Car",
+            "MinSpeed" : 8
           },
           {
             "type": "Mesh Renderer",
@@ -620,7 +606,7 @@
                   {
                     "type": "Mesh Renderer",
                     "mesh": "cube",
-                    "material": "heart"
+                    "material": "red"
                   },
                   {
                     "type": "Player",
@@ -628,9 +614,66 @@
                     "totalCoins": 4
                   }
                 ]
+              },
+              {
+                "position": [-1.6, 0.85, -1],
+                "rotation": [0, 0, 0],
+                "scale": [0.005, 0.005, 0.005],
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "coin",
+                    "material": "coin"
+                  },{
+                    "type" : "CoinBag"
+                  }
+                ]
+              },
+              {
+                "position": [-1.4, 0.85, -1],
+                "rotation": [0, 0, 0],
+                "scale": [0.005, 0.005, 0.005],
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "coin",
+                    "material": "coin"
+                  },{
+                    "type" : "CoinBag"
+                  }
+                ]
+              },
+              {
+                "position": [-1.2, 0.85, -1],
+                "rotation": [0, 0, 0],
+                "scale": [0.005, 0.005, 0.005],
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "coin",
+                    "material": "coin"
+                  },{
+                    "type" : "CoinBag"
+                  }
+                ]
+              },
+              {
+                "position": [-1, 0.85, -1],
+                "rotation": [0, 0, 0],
+                "scale": [0.005, 0.005, 0.005],
+                "components": [
+                  {
+                    "type": "Mesh Renderer",
+                    "mesh": "coin",
+                    "material": "coin"
+                  },{
+                    "type" : "CoinBag"
+                  }
+                ]
               }
             ]
           },
+          
           //tyres
           {
             "position": [0, 0, 0],
@@ -698,9 +741,7 @@
           }
         ]
       },
-
       // obstucases
-
       //DANGER R1
       {
         "position": [8, 0, 40],
@@ -998,7 +1039,6 @@
           }
         ]
       },
-
       // heart
       {
         "position": [5, 0, 30],
@@ -1210,7 +1250,6 @@
           }
         ]
       },
-
       {
         "position": [-5, 0, 310],
         "rotation": [-90, 0, 0],
@@ -1232,7 +1271,6 @@
           }
         ]
       },
-
       // wood
       {
         "position": [0, 0, 10],
@@ -1371,7 +1409,6 @@
           }
         ]
       },
-
       {
         "position": [-3, 0, 240],
         "rotation": [0, 0, 0],
@@ -1389,9 +1426,7 @@
           }
         ]
       },
-
       // coins
-
       {
         "position": [0, 0, 60],
         "rotation": [-90, 0, 0],
@@ -1413,7 +1448,6 @@
           }
         ]
       },
-
       {
         "position": [0, 0, 85],
         "rotation": [-90, 0, 0],
@@ -1477,9 +1511,7 @@
           }
         ]
       },
-
       /// buildings
-
       {
         "position": [-20, 7, -55],
         "rotation": [0, 90, 0],
@@ -1624,7 +1656,6 @@
           }
         ]
       },
-
       {
         "position": [20, 7, 15],
         "rotation": [0, 90, 0],
@@ -1637,7 +1668,6 @@
           }
         ]
       },
-
       {
         "position": [20, 7, 80],
         "rotation": [0, 90, 0],
@@ -1806,7 +1836,6 @@
           }
         ]
       },
-
       {
         "position": [-20, 7, 130],
         "rotation": [0, 90, 0],
@@ -1903,7 +1932,6 @@
           }
         ]
       },
-
       {
         "position": [0, 5, 368],
         "rotation": [0, 0, 0],

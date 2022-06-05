@@ -75,6 +75,8 @@ set(COMMON_SOURCES
         source/common/components/player.hpp
         source/common/components/car.hpp
         source/common/components/car.cpp
+        source/common/components/coinBag.hpp
+        source/common/components/coinBag.cpp
         source/common/components/collision.hpp
         source/common/components/collision.cpp
         source/common/components/light.hpp

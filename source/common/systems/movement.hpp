@@ -49,7 +49,7 @@ namespace our
                     if (car)
                     {
                          Entity* cEntity = car->getOwner();
-                         cEntity->localTransform.position += deltaTime * movement->linearVelocity*glm::max(getHealth(world),0.5f);
+                         cEntity->localTransform.position += deltaTime * movement->linearVelocity*glm::max(getHealth(world),0.65f);
                        
                     }
                     else

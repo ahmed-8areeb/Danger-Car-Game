@@ -36,7 +36,7 @@ class GameOverState : public our::State
     ImGui::Begin("gameover State");
 
     ImGui::SetWindowFontScale(4.0f);
-    ImGui::SetWindowSize(ImVec2((float)900, (float)500));
+    ImGui::SetWindowSize(ImVec2((float)1000, (float)600));
 
     if(state == 0){
       ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
@@ -47,7 +47,7 @@ class GameOverState : public our::State
     else if(state == 1){
        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
       ImGui::Text("Game Over");
-       ImGui::Text("you failed to collect at least half the coins");
+       ImGui::Text("you failed to collect at \nleast half the coins");
        ImGui::PopStyleColor();
     }else if(state == 2){
        ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(0, 255, 0, 255));
@@ -58,11 +58,14 @@ class GameOverState : public our::State
  
     
     ImGui::Text(" ");
-    ImGui::Text("click yes or press enter to exit the game");
-    ImGui::Text(" ");
-    if (ImGui::Button("Yes")||getApp()->getKeyboard().isPressed(GLFW_KEY_ENTER))
+    if (ImGui::Button("exit game")||getApp()->getKeyboard().isPressed(GLFW_KEY_ENTER))
     {
       exit(1);
+    }
+     if (ImGui::Button("start new game")||getApp()->getKeyboard().isPressed(GLFW_KEY_ENTER))
+    {
+      getApp()->registerState<Playstate>("main");
+      getApp()->changeState("main");
     }
     ImGui::End();
   }

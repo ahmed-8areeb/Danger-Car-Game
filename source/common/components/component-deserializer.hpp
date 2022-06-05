@@ -9,6 +9,7 @@
 #include "movement.hpp"
 #include "collision.hpp"
 #include "light.hpp"
+#include "coinBag.hpp"
 
 namespace our {
 
@@ -33,6 +34,8 @@ namespace our {
             component = entity->addComponent<CollisionComponent>();
         }else if (type == PlayerComponent::getID()){
             component = entity->addComponent<PlayerComponent>();
+        }else if(type == CoinComponent::getID()){
+            component = entity->addComponent<CoinComponent>();
         }
         if(component) component->deserialize(data);
     }

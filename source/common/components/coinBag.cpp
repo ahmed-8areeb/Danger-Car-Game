@@ -1,4 +1,4 @@
-#include "car.hpp"
+#include "coinBag.hpp"
 #include "../ecs/entity.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -7,18 +7,15 @@
 namespace our
 {
     // Reads camera parameters from the given json object
-    void CarComponent::deserialize(const nlohmann::json &data)
+    void CoinComponent::deserialize(const nlohmann::json &data)
     {
          if (!data.is_object())
             return;
-         minSpeed =data.value("minSpeed", minSpeed);
-       // cvelocity = glm::vec3(data["cvelocity"]);
-       /// cvelocity = data.value("cvelocity", cvelocity);
        
     }
 
     // Creates and returns the camera view matrix
-    glm::mat4 CarComponent::getViewMatrix() const
+    glm::mat4 CoinComponent::getViewMatrix() const
     {
         auto owner = getOwner();
         auto M = owner->getLocalToWorldMatrix();

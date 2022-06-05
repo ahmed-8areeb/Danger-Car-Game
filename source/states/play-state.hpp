@@ -9,6 +9,7 @@
 #include <systems/gameController.hpp>
 #include <systems/collisionController.hpp>
 #include <../common/components/collision.hpp>
+#include <../common/components/coinBag.hpp>
 #include <systems/movement.hpp>
 #include <asset-loader.hpp>
 #include<vector>
@@ -25,11 +26,14 @@ class Playstate : public our::State
     our::CollisionControllerSystem collisionController;
     our::GameControllerSystem gameController;
     std::vector<bool> collisionMarker;
+
+    std::vector<our::Entity *>coinBags;
     bool finishInitialized = false;
+    bool alreadyInitialized = false;
     void onInitialize() override
     {
-        //    if(alreadyInitialized) return ;
-        //  alreadyInitialized = true;
+        if(alreadyInitialized) return ;
+            alreadyInitialized = true;
         // First of all, we get the scene configuration from the app config
         auto &config = getApp()->getConfig()["scene"];
         // If we have assets in the scene config, we deserialize them
@@ -54,16 +58,20 @@ class Playstate : public our::State
             if(entity->getComponent<our::CollisionComponent>())
                 s++;
         collisionMarker.resize(s,0);
+
+        for (auto entity : world.getEntities())
+            if(entity->getComponent<our::CoinComponent>())
+                coinBags.push_back(entity);
     }
 
     void onDraw(double deltaTime) override
     {
         // Here, we just run a bunch of systems to control the world logic
         movementSystem.update(&world, (float)deltaTime);
-        cameraController.update(&world, (float)deltaTime);
-        carController.update(&world, (float)deltaTime);
         bool finished = false;
-        if (collisionController.checkCollision(&world, finished,collisionMarker))
+        cameraController.update(&world, (float)deltaTime);
+        carController.update(&world, (float)deltaTime,finished);
+        if (!finished&&collisionController.checkCollision(&world, finished,collisionMarker,coinBags))
         {
             getApp()->state = 0;
             getApp()->changeState("gameOver");

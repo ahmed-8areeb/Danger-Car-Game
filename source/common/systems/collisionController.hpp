@@ -32,7 +32,7 @@ namespace our
         }
 
         // This should be called every frame to update all entities containing a FreeCameraControllerComponent
-        bool checkCollision(World *world, bool &finished, std::vector<bool> &collisionMarker)
+        bool checkCollision(World *world, bool &finished, std::vector<bool> &collisionMarker, std::vector<Entity *> &coinBags)
         {
             // First of all, we search for an entity containing both a CameraComponent and a FreeCameraControllerComponent
             // As soon as we find one, we break
@@ -70,6 +70,10 @@ namespace our
             glm::vec3 &carRotation = carEntity->localTransform.rotation;
             glm::vec3 &carScale = carEntity->localTransform.scale;
 
+            float minCarX = carPosition.x + carEntity->getComponent<MeshRendererComponent>()->mesh->minX;
+            float maxCarX = carPosition.x + carEntity->getComponent<MeshRendererComponent>()->mesh->maxX;
+
+            // std::cout<<carPosition.x<<" "<<minCarX<<"\n";
             int i = 0;
             for (auto entity : world->getEntities())
             {
@@ -82,17 +86,26 @@ namespace our
                         continue;
                     }
                     Entity *objEntity = oEntity->getOwner();
+
                     glm::vec3 &objPosition = objEntity->localTransform.position;
                     glm::vec3 &objScale = objEntity->localTransform.scale;
-                    
-                    //AABB Collision Detection
-                    bool collisionX = carPosition.x + 4.0 >= objPosition.x &&
+                    float minObsX = objPosition.x + objEntity->getComponent<MeshRendererComponent>()->mesh->minX;
+                    float maxObsX = objPosition.x + objEntity->getComponent<MeshRendererComponent>()->mesh->maxX;
+
+                    //  AABB Collision Detection
+                    // bool collisionX = carPosition.x + (maxCarX - minCarX)*carScale.x/2 >= objPosition.x &&
+                    //                   objPosition.x + (maxObsX - minObsX)*objScale.x/2 >= carPosition.x;
+
+                    // bool collisionX = (minCarX>=minObsX &&minCarX<=maxObsX) || (maxCarX>=minObsX &&maxCarX<=maxObsX);
+
+                    bool collisionX = carPosition.x + 5.0 >= objPosition.x &&
                                       objPosition.x + 5.0 >= carPosition.x;
+
                     // collision y-axis?
                     bool collisionY = carPosition.y - 1.5 < objPosition.y + objScale.y / 2;
 
                     // std::cout<<carPosition.y<<" "<<objPosition.y+objScale.y/2<<"\n";
-                    bool collisionZ = carPosition.z + 2*carScale.z >= objPosition.z &&
+                    bool collisionZ = carPosition.z + 2 * carScale.z >= objPosition.z &&
                                       objPosition.z + 3.0 >= carPosition.z;
 
                     // collision only if on both axes
@@ -135,7 +148,6 @@ namespace our
                             else
                             {
                                 healthScale.x += float(bouns) / 100.0;
-                                ;
                             }
                             // objPosition.z -= 20;
                             // objPosition.y -= 20;
@@ -148,6 +160,12 @@ namespace our
                             // objPosition.z -= 20;
                             // objPosition.y -= 20;
                             collisionMarker[i] = true;
+                            if (coinBags.size() > 0)
+                            {
+                                Entity *bag = coinBags.back();
+                                bag->canDraw = false;
+                                coinBags.pop_back();
+                            }
                             objEntity->canDraw = false;
                         }
                         else if (oEntity->obstucaseType == "finish")
