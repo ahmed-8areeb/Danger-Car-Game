@@ -56,10 +56,11 @@ namespace our
         void setup() const override;
         void deserialize(const nlohmann::json &data) override;
     };
+    // here we specify the lighted materials properties of the material it inherits from the base class material
     class LightedMaterial : public Material
     {
     public:
-        Texture2D *albedoTexture;
+                Texture2D *albedoTexture;
         Sampler *albedoSampler;
 
         Texture2D *specularTexture;
@@ -92,6 +93,7 @@ namespace our
         {
             return new TexturedMaterial();
         }
+        // if the type is lighted, we create a new lighted material
         else if (type == "lighted")
         {
             return new LightedMaterial();

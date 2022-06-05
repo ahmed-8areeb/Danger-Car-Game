@@ -6,6 +6,7 @@
 
 namespace our
 {
+  // Light types (directional, point, spot)
   enum class LightType
   {
     DIRECTIONAL,
@@ -13,11 +14,14 @@ namespace our
     SPOT
 };
 
+  // Light component class (stores light parameters)
+  
   class LightComponent : public Component
   {
   public:
     LightType lightType;
 
+    // Light parameters (diffuse, specular, attenuation, cone_angles)
     glm::vec3 diffuse = {0.0f, 0.0f, 0.0f};
     glm::vec3 specular = {0.0f, 0.0f, 0.0f};
     glm::vec3 attenuation = {1.0f, 0.0f, 0.0f};
