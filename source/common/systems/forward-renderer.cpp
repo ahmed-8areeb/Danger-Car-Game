@@ -103,15 +103,6 @@ namespace our
             postprocessMaterial->pipelineState.depthMask = false;
         }
 
-        // if (config.contains("lighted"))
-        // {
-        //     light->deserialize(config);
-
-        //     ShaderProgram *lightShader = new ShaderProgram();
-        //     lightShader->attach("assets/shaders/light.vert", GL_VERTEX_SHADER);
-        //     lightShader->attach("assets/shaders/light.frag", GL_FRAGMENT_SHADER);
-        //     lightShader->link();
-        // }
     }
 
     void ForwardRenderer::destroy()
@@ -137,6 +128,8 @@ namespace our
             delete postprocessMaterial;
         }
     }
+
+    // here we return the entities that have lighted component
     std::vector<Entity *> ForwardRenderer::lightedEntities(World *world)
     {
         std::vector<Entity *> lEntities;
@@ -150,6 +143,7 @@ namespace our
 
         return lEntities;
     }
+
     std::vector<Entity *> cars(World *world)
     {
         std::vector<Entity *> lEntities;
@@ -163,6 +157,8 @@ namespace our
 
         return lEntities;
     }
+
+    // here we setup each light in our scene by looping on the lighted entities and setting up the lights to the shader
 
     void ForwardRenderer::lightSetup(std::vector<Entity *> entities, ShaderProgram *program)
     {
@@ -179,22 +175,22 @@ namespace our
             program->set("lights[" + std::to_string(i) + "].position", entities[i]->localTransform.position);
             glm::vec3 rotation = entities[i]->localTransform.rotation;
             program->set("lights[" + std::to_string(i) + "].direction", (glm::vec3)((glm::yawPitchRoll(rotation[1], rotation[0], rotation[2]) * (glm::vec4(0, -1, 0, 0)))));
-
-            // std::cout << "x component of light" << light->diffuse.x << std::endl;
-            // std::cout << "y component of light" << light->diffuse.y << std::endl;
-            // std::cout << "z component of light" << light->diffuse.z << std::endl;
         }
     }
 
+    // this function is used to setup materials and send to the shader eye position , and here we split MVP to be M and VP and also M inverse transpose
+    // we also setup the lights and send the lighted entities to this function and also send the sky light to the shader at the end we draw
     void ForwardRenderer::excuteCommand(std::vector<RenderCommand> commands, glm::mat4 VP, std::vector<Entity *> lEntities, glm::vec3 eye)
     {
         for (RenderCommand command : commands)
         {
-            if(!command.draw) continue;
+            if (!command.draw)
+                continue;
             ShaderProgram *program = command.material->shader;
             Mesh *mesh = command.mesh;
             command.material->setup();
-            if(!program) return;
+            if (!program)
+                return;
             program->set("eye", eye);
             program->set("M", command.localToWorld);
             program->set("MIT", glm::transpose(glm::inverse(command.localToWorld)));
@@ -306,38 +302,13 @@ namespace our
 
         std::vector<Entity *> lEntities = lightedEntities(world);
         glm::vec3 eye = glm::vec3(camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(glm::vec3(0, 0, 0), 1.0f));
-        //  auto executeCommands = [&VP, &camera, &lEntities, this](std::vector<RenderCommand> commands)
-        //{
-        // for (RenderCommand command : commands)
-        // {
-        //     ShaderProgram *program = command.material->shader;
-        //     Mesh *mesh = command.mesh;
-        //     command.material->setup();
 
-        //     program->set("eye", glm::vec3(camera->getOwner()->getLocalToWorldMatrix() * glm::vec4(glm::vec3(0, 0, 0), 1.0f)));
-        //     program->set("M", command.localToWorld);
-        //     program->set("MIT", glm::transpose(glm::inverse(command.localToWorld)));
-        //     program->set("VP", VP);
-        //     lightSetup(lEntities, program);
-        //     program->set("sky.top", this->sky_top);
-        //     program->set("sky.middle", this->sky_middle);
-        //     program->set("sky.bottom", this->sky_bottom);
-        //     mesh->draw();
-        // }
-        // };
 
-        // TODO: (Req 8) Draw all the opaque commands
-        //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
 
-        // for (int i = 0; i < opaqueCommands.size(); i++)
-        // {
-        //     /* we should draw here */
-        //     opaqueCommands[i].material->setup();
-        //     opaqueCommands[i].material->shader->set("transform", VP * opaqueCommands[i].localToWorld);
-        //     opaqueCommands[i].mesh->draw();
-        // }
-        // std::vector<Entity *> cEntities = cars(world);
-        ForwardRenderer::excuteCommand(opaqueCommands,VP,lEntities,eye);
+
+
+        // here we draw the opaque commands first
+        ForwardRenderer::excuteCommand(opaqueCommands, VP, lEntities, eye);
         // ForwardRenderer::excuteCommand(opaqueCommands,VP,cEntities,eye);
 
         // If there is a sky material, draw the sky
@@ -369,18 +340,9 @@ namespace our
             // TODO: (Req 9) draw the sky sphere
             skySphere->draw();
         }
-        // TODO: (Req 8) Draw all the transparent commands
-        //  Don't forget to set the "transform" uniform to be equal the model-view-projection matrix for each render command
 
-        // for (int i = 0; i < transparentCommands.size(); i++)
-        // {
-        //     transparentCommands[i].material->setup();
-        //     transparentCommands[i].material->shader->set("transform", VP * transparentCommands[i].localToWorld);
-        //     transparentCommands[i].mesh->draw();
-        // }
-
-
-        ForwardRenderer::excuteCommand(transparentCommands,VP,lEntities,eye);
+        // at the end we draw the transparent commands 
+        ForwardRenderer::excuteCommand(transparentCommands, VP, lEntities, eye);
 
         // If there is a postprocess material, apply postprocessing
         if (postprocessMaterial)
@@ -391,12 +353,14 @@ namespace our
             // TODO: (Req 10) Setup the postprocess material and draw the fullscreen triangle
             // from textured material
             postprocessMaterial->setup();
-             glActiveTexture(GL_TEXTURE1);
-            ShaderProgram* shader=postprocessMaterial->shader;
+            glActiveTexture(GL_TEXTURE1);
+            ShaderProgram *shader = postprocessMaterial->shader;
             depthTarget->bind();
             postprocessMaterial->sampler->bind(1);
+            // the inverse projection matrix is send fog postprocess
+            // We will use the inverse projection to get the fragment coordinate in the camera (view/eye) space.
             shader->set("depth_sampler", 1);
-            shader->set("inverse_projection",glm::inverse(camera->getProjectionMatrix(windowSize)));
+            shader->set("inverse_projection", glm::inverse(camera->getProjectionMatrix(windowSize)));
             glActiveTexture(GL_TEXTURE0);
             glBindVertexArray(postProcessVertexArray);
             glDrawArrays(GL_TRIANGLES, 0, 3);

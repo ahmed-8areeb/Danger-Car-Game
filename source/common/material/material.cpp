@@ -72,45 +72,53 @@ namespace our
         sampler = AssetLoader<Sampler>::get(data.value("sampler", ""));
     }
 
+
     void LightedMaterial::setup() const
     {
         // TODO: (Req 6) Write this function
         Material::setup();
-
+        // set the lighted material uniforms albedo at texture0
+        
         glActiveTexture(GL_TEXTURE0);
         if (albedoTexture)
             albedoTexture->bind();
         albedoSampler->bind(0);
         shader->set("material.albedo", 0);
-
+        
+        // set the lighted material uniforms specular at texture1
         glActiveTexture(GL_TEXTURE1);
         if (specularTexture)
             specularTexture->bind();
         specularSampler->bind(1);
         shader->set("material.specular", 1);
 
+        // set the lighted material uniforms roughness at texture2
         glActiveTexture(GL_TEXTURE2);
         if (roughnessTexture)
             roughnessTexture->bind();
         roughnessSampler->bind(2);
         shader->set("material.roughness", 2);
 
+        // set the lighted material uniforms ambientOcclusion at texture3
         glActiveTexture(GL_TEXTURE3);
         if (ambientOcclusionTexture)
         {
             ambientOcclusionTexture->bind();
             shader->set("material.ambientOcclusionEnable", true);
-        }else
+        }
+        else
             shader->set("material.ambientOcclusionEnable", false);
         ambientOcclusionSampler->bind(3);
         shader->set("material.ambient_occlusion", 3);
 
+        // set the lighted material uniforms emissive at texture4
         glActiveTexture(GL_TEXTURE4);
         if (emissiveTexture)
             emissiveTexture->bind();
         emissiveSampler->bind(4);
         shader->set("material.emissive", 4);
 
+        // set the lighted material uniforms alpha at texture5
         glActiveTexture(GL_TEXTURE5);
         if (alphaTexture)
         {
@@ -122,10 +130,12 @@ namespace our
         alphaSampler->bind(5);
         shader->set("material.alpha", 5);
 
+        // return back to texture0 for the next material
         glActiveTexture(GL_TEXTURE0);
     }
 
     // This function read the material data from a json object
+    // It should also read the textures and samplers from the json object
     void LightedMaterial::deserialize(const nlohmann::json &data)
     {
         Material::deserialize(data);

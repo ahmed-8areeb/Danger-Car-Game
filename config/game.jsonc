@@ -1,5 +1,5 @@
 {
-  "start-scene": "main",
+  "start-scene": "menu",
   "window": {
     "title": "Default Game Window",
     "size": {

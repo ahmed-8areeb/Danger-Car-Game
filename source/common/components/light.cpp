@@ -4,11 +4,14 @@ namespace our
 {
 
   
-  // Reads camera parameters from the given json object
+  // Reads light parameters from the given json object
   void LightComponent::deserialize(const nlohmann::json &data)
   {
+
     if (!data.is_object())
       return;
+      
+    // if the lightType is not specified, it is set to DIRECTIONAL
     std::string lightTypeStr = data.value("lightType", "directional");
     
     if (lightTypeStr == "directional")
